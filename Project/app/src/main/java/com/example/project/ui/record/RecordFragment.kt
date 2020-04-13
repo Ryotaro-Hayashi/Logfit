@@ -1,4 +1,4 @@
-package com.example.project.ui.dashboard
+package com.example.project.ui.record
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.project.R
 
-class DashboardFragment : Fragment() {
+class RecordFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var recordViewModel: RecordViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        recordViewModel =
+                ViewModelProviders.of(this).get(RecordViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_record, container, false)
+        val textView: TextView = root.findViewById(R.id.text_record)
+        recordViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

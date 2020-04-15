@@ -11,7 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
-        android:layout_marginBottom="55dp"
         android:text="今日の身体記録"
         android:textSize="21sp"
         app:layout_constraintBottom_toTopOf="@+id/divider1"
@@ -23,10 +22,12 @@
         android:id="@+id/bodyWeight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
-        android:layout_marginEnd="25dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="38dp"
         android:text="体重"
-        app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentage"
+        app:layout_constraintBottom_toTopOf="@+id/bodyWeightForm"
+        app:layout_constraintEnd_toStartOf="@+id/divider1"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recordTitle" />
 
@@ -34,50 +35,35 @@
         android:id="@+id/bodyFatPercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="80dp"
         android:text="体脂肪率"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bodyWeight"
+        app:layout_constraintHorizontal_bias="0.953"
+        app:layout_constraintStart_toEndOf="@+id/divider1"
         app:layout_constraintTop_toBottomOf="@+id/recordTitle" />
 
     <EditText
         android:id="@+id/bodyWeightForm"
         android:layout_width="103dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="40dp"
         android:ems="10"
         android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="@+id/divider1"
         app:layout_constraintEnd_toStartOf="@+id/divider1"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bodyWeight" />
-
-    <EditText
-        android:id="@+id/bodyFatPercentageForm"
-        android:layout_width="96dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="208dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.266"
-        app:layout_constraintStart_toEndOf="@+id/divider1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <View
         android:id="@+id/divider1"
         android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="76dp"
-        android:layout_marginEnd="48dp"
+        android:layout_height="60dp"
         android:layout_marginBottom="478dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentage"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/bodyWeight"
-        app:layout_constraintTop_toBottomOf="@+id/recordTitle" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/registerButton"
@@ -89,15 +75,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider1" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

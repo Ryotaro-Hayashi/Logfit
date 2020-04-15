@@ -7,19 +7,28 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.project.ui.home.HomeFragment"
+        android:name="com.example.project.fragment.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_record"
-        android:name="com.example.project.ui.record.RecordFragment"
+        android:name="com.example.project.fragment.RecordFragment"
         android:label="@string/title_record"
-        tools:layout="@layout/fragment_record" />
+        tools:layout="@layout/fragment_record" >
+        <action
+            android:id="@+id/action_navigation_record_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popUpTo="@id/navigation_home"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_calendar"
-        android:name="com.example.project.ui.calendar.CalendarFragment"
+        android:name="com.example.project.fragment.CalendarFragment"
         android:label="@string/title_calendar"
         tools:layout="@layout/fragment_calendar" />
 </navigation>

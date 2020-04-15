@@ -22,9 +22,9 @@ class RecordFragment : Fragment() {
         recordViewModel =
                 ViewModelProviders.of(this).get(RecordViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_record, container, false)
-        val textView: TextView = root.findViewById(R.id.text_record)
+//        val textView: TextView = root.findViewById(R.id.text_record)
         recordViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+//            textView.text = it
         })
         return root
     }

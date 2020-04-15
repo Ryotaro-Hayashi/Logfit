@@ -1,5 +1,6 @@
 package com.example.project.ui.record
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.project.R
+import com.example.project.ui.home.HomeFragment
 
+// Fragment クラスを継承
 class RecordFragment : Fragment() {
 
     private lateinit var recordViewModel: RecordViewModel

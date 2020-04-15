@@ -3,6 +3,7 @@ package com.example.project.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -15,14 +16,14 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
 
     private lateinit var model: SharedViewModel
 
-    // 体脂肪を表示するHomeのTextViewを初期化
-    private lateinit var bodyWeight: TextView
+    // 入力フォームを初期化
+    private lateinit var bodyWeightForm: EditText
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 体脂肪を表示するHomeのTextView
-        bodyWeight = view.findViewById(R.id.bodyWeight)
+        // 入力フォームを取得
+        bodyWeightForm = view.findViewById(R.id.bodyWeightForm)
 
         model = activity?.run {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
@@ -36,14 +37,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             findNavController().navigate(action)
 
             // フォームに入力した値を反映
-            model.updateInformation()
-            // Home のTextViewに反映
-            register()
+            model.bodyWeight = bodyWeightForm.text.toString()
         }
-    }
-
-    // 入力した情報をHomeで表示するTextViewに格納
-    private fun register() {
-        bodyWeight.text = model.bodyWeight.toString()
     }
 }

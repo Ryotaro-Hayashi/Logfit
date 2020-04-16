@@ -66,14 +66,15 @@
         android:id="@+id/registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:layout_marginBottom="96dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginBottom="126dp"
         android:text="登録"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.823"
+        app:layout_constraintHorizontal_bias="0.801"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/noteForm" />
+        app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRateForm"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/skeletalMusclePercentage"
@@ -104,10 +105,12 @@
         android:layout_marginTop="12dp"
         android:ems="10"
         android:inputType="numberDecimal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/divider"
         app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentage" />
+        app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentage"
+        app:layout_constraintVertical_bias="0.008" />
 
     <View
         android:id="@+id/divider"
@@ -115,9 +118,11 @@
         android:layout_height="60dp"
         android:layout_marginTop="64dp"
         android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1" />
+        app:layout_constraintTop_toBottomOf="@+id/divider1"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/basalMetabolicRate"
@@ -141,26 +146,5 @@
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toEndOf="@+id/divider"
         app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRate" />
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/noteForm"
-        android:layout_width="296dp"
-        android:layout_height="116dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.547"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/note" />
-
-    <TextView
-        android:id="@+id/note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="メモ"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.248"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentageForm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

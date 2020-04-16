@@ -10,7 +10,7 @@
         android:id="@+id/recordTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="5dp"
         android:text="今日の身体記録"
         android:textSize="21sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/bodyWeight"
+        android:id="@+id/bodyWeightView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/recordTitle" />
 
     <TextView
-        android:id="@+id/bodyFatPercentage"
+        android:id="@+id/bodyFatPercentageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -50,7 +50,7 @@
         app:layout_constraintEnd_toStartOf="@+id/divider1"
         app:layout_constraintHorizontal_bias="0.846"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bodyWeight" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyWeightView" />
 
     <View
         android:id="@+id/divider1"
@@ -95,7 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toEndOf="@+id/divider1"
-        app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentage" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentageView" />
 
     <EditText
         android:id="@+id/skeletalMusclePercentageForm"

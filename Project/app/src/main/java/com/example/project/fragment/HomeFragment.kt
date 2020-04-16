@@ -13,14 +13,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var model: SharedViewModel
 
-    // 体脂肪を表示するHomeのTextViewを初期化
-    private lateinit var bodyWeight: TextView
+    // Homeで表示するTextViewを初期化
+    private lateinit var bodyWeightView: TextView
+    private lateinit var bodyFatPercentageView: TextView
+    private lateinit var skeletalMusclePercentageView: TextView
+    private lateinit var basalMetabolicRateView: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 体脂肪を表示するHomeのTextView
-        bodyWeight = view.findViewById(R.id.bodyWeight)
+        // Homeで表示するTextViewを取得
+        bodyWeightView = view.findViewById(R.id.bodyWeightView)
+        bodyFatPercentageView = view.findViewById(R.id.bodyFatPercentageView)
+        skeletalMusclePercentageView = view.findViewById(R.id.skeletalMusclePercentageView)
+        basalMetabolicRateView = view.findViewById(R.id.basalMetabolicRateView)
 
         model = activity?.run {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
@@ -31,6 +37,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun updateView() {
-        bodyWeight.text = model.bodyWeight.toString()
+        bodyWeightView.text = model.bodyWeight.toString()
+        bodyFatPercentageView.text = model.bodyFatPercentage.toString()
+        skeletalMusclePercentageView.text = model.skeletalMusclePercentage.toString()
+        basalMetabolicRateView.text = model.basalMetabolicRate.toString()
     }
 }

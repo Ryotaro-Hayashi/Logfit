@@ -21,6 +21,8 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     private lateinit var skeletalMusclePercentageForm: EditText // 骨格筋率入力フォーム
     private lateinit var basalMetabolicRateForm: EditText // 基礎代謝入力フォーム
 
+    private var blankMessage = "入力されていません"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,7 +44,12 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             findNavController().navigate(action)
 
             // フォームに入力した値を反映
-            model.bodyWeight = bodyWeightForm.text.toString()
+            if (bodyWeightForm.text.isBlank()) { // 体重
+                model.bodyWeight = blankMessage
+            } else {
+                model.bodyWeight = bodyWeightForm.text.toString()
+            }
+
             model.bodyFatPercentage = bodyFatPercentageForm.text.toString()
             model.skeletalMusclePercentage = skeletalMusclePercentageForm.text.toString()
             model.basalMetabolicRate = basalMetabolicRateForm.text.toString()

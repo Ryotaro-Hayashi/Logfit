@@ -30,5 +30,18 @@
         android:id="@+id/navigation_calendar"
         android:name="com.example.project.fragment.CalendarFragment"
         android:label="@string/title_calendar"
-        tools:layout="@layout/fragment_calendar" />
+        tools:layout="@layout/fragment_calendar" >
+        <action
+            android:id="@+id/action_navigation_calendar_to_navigation_date"
+            app:destination="@id/navigation_date" />
+    </fragment>
+    <navigation
+        android:id="@+id/navigation_date"
+        android:label="@string/title_date"
+        app:startDestination="@id/navigation_date">
+        <fragment
+            android:id="@+id/navigation_date"
+            android:name="com.example.project.fragment.DateFragment"
+            android:label="@string/title_date" />
+    </navigation>
 </navigation>

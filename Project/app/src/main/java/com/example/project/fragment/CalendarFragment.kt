@@ -6,6 +6,7 @@ import android.widget.CalendarView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.project.R
 import com.example.project.viewmodel.SharedViewModel
 import java.text.SimpleDateFormat
@@ -37,6 +38,10 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val date = "$year/$month/$dayOfMonth"
             Toast.makeText(context, date, Toast.LENGTH_SHORT).show()
+
+            // 画面遷移
+            val action = CalendarFragmentDirections.actionNavigationCalendarToNavigationDate()
+            findNavController().navigate(action)
         }
     }
 }

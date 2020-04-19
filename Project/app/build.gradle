@@ -53,4 +53,6 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    // Graph
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

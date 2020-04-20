@@ -21,8 +21,6 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     private lateinit var skeletalMusclePercentageForm: EditText // 骨格筋率入力フォーム
     private lateinit var basalMetabolicRateForm: EditText // 基礎代謝入力フォーム
 
-    private var blankMessage = "入力されていません"
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -45,15 +43,31 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
 
             // フォームに入力した値を反映
             if (bodyWeightForm.text.isBlank()) { // 体重
-                model.bodyWeight = blankMessage
+                model.bodyWeight = model.blankMessage
             } else {
                 model.bodyWeight = bodyWeightForm.text.toString()
             }
 
-            model.bodyFatPercentage = bodyFatPercentageForm.text.toString()
-            model.skeletalMusclePercentage = skeletalMusclePercentageForm.text.toString()
-            model.basalMetabolicRate = basalMetabolicRateForm.text.toString()
+            // フォームに入力した値を反映
+            if (bodyFatPercentageForm.text.isBlank()) { // 体重
+                model.bodyFatPercentage = model.blankMessage
+            } else {
+                model.bodyFatPercentage = bodyWeightForm.text.toString()
+            }
 
+            // フォームに入力した値を反映
+            if (skeletalMusclePercentageForm.text.isBlank()) { // 体重
+                model.skeletalMusclePercentage = model.blankMessage
+            } else {
+                model.skeletalMusclePercentage = skeletalMusclePercentageForm.text.toString()
+            }
+
+            // フォームに入力した値を反映
+            if (basalMetabolicRateForm.text.isBlank()) { // 体重
+                model.basalMetabolicRate = model.blankMessage
+            } else {
+                model.basalMetabolicRate = basalMetabolicRateForm.text.toString()
+            }
         }
     }
 }

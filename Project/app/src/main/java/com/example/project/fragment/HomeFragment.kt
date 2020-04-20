@@ -57,10 +57,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun updateView() {
-        bodyWeightView.text = model.bodyWeight.toString()
-        bodyFatPercentageView.text = model.bodyFatPercentage.toString()
-        skeletalMusclePercentageView.text = model.skeletalMusclePercentage.toString()
-        basalMetabolicRateView.text = model.basalMetabolicRate.toString()
+        bodyWeightView.text = model.bodyWeight.toString() + " kg"
+        bodyFatPercentageView.text = model.bodyFatPercentage.toString() + " %"
+        skeletalMusclePercentageView.text = model.skeletalMusclePercentage.toString() + " ％"
+        basalMetabolicRateView.text = model.basalMetabolicRate.toString() + " kcal"
     }
 
     // データ作成

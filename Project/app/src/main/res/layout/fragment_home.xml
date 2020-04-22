@@ -7,10 +7,12 @@
     tools:context=".fragment.HomeFragment">
 
     <!-- グラフ -->
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/lineChart"
         android:layout_width="0dp"
         android:layout_height="200dp"
+        android:background="@drawable/bg_grad"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +22,7 @@
         android:id="@+id/textView"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/shape_rounded_corners"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

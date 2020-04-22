@@ -1,5 +1,6 @@
 package com.example.project.fragment
 
+import android.R.attr.entries
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -8,13 +9,14 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.project.viewmodel.SharedViewModel
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.example.project.R
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.Entry
 import kotlinx.android.synthetic.main.fragment_home.*
+import com.example.project.R
+import com.github.mikephil.charting.components.YAxis
+
 
 // Fragment クラスを継承
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -68,18 +70,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val values = mutableListOf<Entry>()
 
-        for (i in 0 until count) {
-            // 値はランダムで表示させる
-            val value = (Math.random() * (range)).toFloat()
-            values.add(Entry(i.toFloat(), value))
-        }
+        values.add(Entry(1.toFloat(), 0.toFloat()))
+        values.add(Entry(2.toFloat(), 15.toFloat()))
+        values.add(Entry(3.toFloat(), 9.toFloat()))
+        values.add(Entry(4.toFloat(), 90.toFloat()))
+        values.add(Entry(5.toFloat(), 9.toFloat()))
+        values.add(Entry(6.toFloat(), 90.toFloat()))
+
 
         // グラフのレイアウトの設定
         val yVals = LineDataSet(values, "体重").apply {
-//            axisDependency =  YAxis.AxisDependency.LEFT
             color = Color.WHITE
-            // タップ時のハイライトカラー
-//            highLightColor = Color.YELLOW
             setDrawCircles(true)
             setDrawCircleHole(true)
             // 点の値非表示
@@ -100,13 +101,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             // 拡大縮小可能
             isScaleXEnabled = true
             setPinchZoom(false)
+            // グラフの描画領域の背景指定
             setDrawGridBackground(false)
 
             //データラベルの表示
             legend.apply {
                 form = Legend.LegendForm.LINE
                 typeface = mTypeface
-                textSize = 11f
+                textSize = 15f
                 textColor = Color.WHITE
                 verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
                 horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
@@ -114,24 +116,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 setDrawInside(false)
             }
 
+            axisLeft.apply {
+                isEnabled = false
+                // 横線
+                setDrawGridLines(false)
+            }
+
             axisRight.apply {
                 isEnabled = false
                 setDrawGridLines(false)
             }
 
-            //y軸左側の表示
-//            axisLeft.apply {
-//                typeface = mTypeface
-//                textColor = Color.BLACK
-                // 格子線を表示する
-//                setDrawGridLines(true)
-//            }
             // X軸の設定
             xAxis.apply {
+                // 縦線
                 setDrawGridLines(false)
+                // 縦軸のメモリ表示
                 setDrawLabels(false)
                 setAvoidFirstLastClipping(false)
-//                position = XAxis.XAxisPosition.BOTTOM
             }
         }
     }

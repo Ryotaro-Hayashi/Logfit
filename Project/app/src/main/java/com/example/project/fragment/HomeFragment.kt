@@ -77,11 +77,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // グラフのレイアウトの設定
         val yVals = LineDataSet(values, "体重").apply {
+            // 線の色
             color = Color.WHITE
             setDrawCircles(true)
             setDrawCircleHole(true)
             // 点の値非表示
             setDrawValues(true)
+            valueTextColor = Color.DKGRAY
+            // テキストサイズ
+            valueTextSize = 12f
             // 線の太さ
             lineWidth = 2f
         }

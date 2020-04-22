@@ -76,14 +76,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // グラフのレイアウトの設定
         val yVals = LineDataSet(values, "体重").apply {
-            axisDependency =  YAxis.AxisDependency.LEFT
-            color = Color.BLACK
+//            axisDependency =  YAxis.AxisDependency.LEFT
+            color = Color.WHITE
             // タップ時のハイライトカラー
-            highLightColor = Color.YELLOW
+//            highLightColor = Color.YELLOW
             setDrawCircles(true)
             setDrawCircleHole(true)
             // 点の値非表示
-            setDrawValues(false)
+            setDrawValues(true)
             // 線の太さ
             lineWidth = 2f
         }
@@ -95,7 +95,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setupLineChart(){
         lineChart.apply {
             description.isEnabled = false
-            setTouchEnabled(true)
+            setTouchEnabled(false)
             isDragEnabled = true
             // 拡大縮小可能
             isScaleXEnabled = true
@@ -107,30 +107,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 form = Legend.LegendForm.LINE
                 typeface = mTypeface
                 textSize = 11f
-                textColor = Color.BLACK
+                textColor = Color.WHITE
                 verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
                 horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
                 orientation = Legend.LegendOrientation.HORIZONTAL
                 setDrawInside(false)
             }
 
-            //y軸右側の設定
-            axisRight.isEnabled = true
-
-            //X軸表示
-            xAxis.apply {
-                typeface = mTypeface
-                setDrawLabels(false)
-                // 格子線を表示する
-                setDrawGridLines(true)
+            axisRight.apply {
+                isEnabled = false
+                setDrawGridLines(false)
             }
 
             //y軸左側の表示
-            axisLeft.apply {
-                typeface = mTypeface
-                textColor = Color.BLACK
+//            axisLeft.apply {
+//                typeface = mTypeface
+//                textColor = Color.BLACK
                 // 格子線を表示する
-                setDrawGridLines(true)
+//                setDrawGridLines(true)
+//            }
+            // X軸の設定
+            xAxis.apply {
+                setDrawGridLines(false)
+                setDrawLabels(false)
+                setAvoidFirstLastClipping(false)
+//                position = XAxis.XAxisPosition.BOTTOM
             }
         }
     }

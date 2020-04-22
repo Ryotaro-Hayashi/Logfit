@@ -4,30 +4,21 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.project.PagerAdapter
 import com.example.project.viewmodel.SharedViewModel
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.android.synthetic.main.fragment_home.*
 import com.example.project.R
 
-
-
 // Fragment クラスを継承
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var model: SharedViewModel
-
-    // Homeで表示するTextViewを初期化
-    private lateinit var bodyWeightView: TextView
-    private lateinit var bodyFatPercentageView: TextView
-    private lateinit var skeletalMusclePercentageView: TextView
-    private lateinit var basalMetabolicRateView: TextView
 
     // スタイルとフォントファミリーの設定
     private var mTypeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
@@ -35,18 +26,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Homeで表示するTextViewを取得
-        bodyWeightView = view.findViewById(R.id.bodyWeightView)
-        bodyFatPercentageView = view.findViewById(R.id.bodyFatPercentageView)
-        skeletalMusclePercentageView = view.findViewById(R.id.skeletalMusclePercentageView)
-        basalMetabolicRateView = view.findViewById(R.id.basalMetabolicRateView)
-
         model = activity?.run {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
-
-        // viewmodelの値をtextViewに格納
-        updateView()
 
         // グラフの設定
         setupLineChart()
@@ -54,13 +36,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // データの設定
         // 引数にデータ数と縦軸のメモリを指定
         lineChart.data = lineData()
-    }
 
-    private fun updateView() {
-        bodyWeightView.text = model.bodyWeight.toString() + " kg"
-        bodyFatPercentageView.text = model.bodyFatPercentage.toString() + " %"
-        skeletalMusclePercentageView.text = model.skeletalMusclePercentage.toString() + " ％"
-        basalMetabolicRateView.text = model.basalMetabolicRate.toString() + " kcal"
+        val fragmentList = arrayListOf<Fragment>(
+            TodayFragment(), RecordFragment()
+        )
+
+        /// adapterのインスタンス生成
+        val adapter = fragmentManager?.let {
+            PagerAdapter(
+                it,
+                fragmentList
+            )
+        }
+
+        /// adapterをセット
+        viewPager.adapter = adapter
     }
 
     // データ作成

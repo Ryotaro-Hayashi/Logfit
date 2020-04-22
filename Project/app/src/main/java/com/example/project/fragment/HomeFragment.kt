@@ -1,6 +1,5 @@
 package com.example.project.fragment
 
-import android.R.attr.entries
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -10,12 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.project.viewmodel.SharedViewModel
 import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.android.synthetic.main.fragment_home.*
 import com.example.project.R
-import com.github.mikephil.charting.components.YAxis
+
 
 
 // Fragment クラスを継承
@@ -31,8 +31,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     // スタイルとフォントファミリーの設定
     private var mTypeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
-    // データの個数
-    private val chartDataCount = 7
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,7 +53,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // データの設定
         // 引数にデータ数と縦軸のメモリを指定
-        lineChart.data = lineData(chartDataCount, 10f)
+        lineChart.data = lineData()
     }
 
     private fun updateView() {
@@ -66,7 +64,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     // データ作成
-    private fun lineData(count: Int, range: Float):LineData {
+    private fun lineData():LineData {
 
         val values = mutableListOf<Entry>()
 
@@ -76,7 +74,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         values.add(Entry(4.toFloat(), 90.toFloat()))
         values.add(Entry(5.toFloat(), 9.toFloat()))
         values.add(Entry(6.toFloat(), 90.toFloat()))
-
 
         // グラフのレイアウトの設定
         val yVals = LineDataSet(values, "体重").apply {
@@ -129,11 +126,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             // X軸の設定
             xAxis.apply {
-                // 縦線
-                setDrawGridLines(false)
-                // 縦軸のメモリ表示
-                setDrawLabels(false)
-                setAvoidFirstLastClipping(false)
+                isEnabled = false
             }
         }
     }

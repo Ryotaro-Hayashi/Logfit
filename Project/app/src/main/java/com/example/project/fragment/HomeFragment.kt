@@ -83,7 +83,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             setDrawCircleHole(true)
             // 点の値非表示
             setDrawValues(true)
-            valueTextColor = Color.DKGRAY
+            valueTextColor = Color.BLACK
             // テキストサイズ
             valueTextSize = 12f
             // 線の太さ

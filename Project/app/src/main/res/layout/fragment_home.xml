@@ -20,7 +20,7 @@
         android:id="@+id/textView"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/shape_rounded_corners"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

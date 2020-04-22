@@ -6,17 +6,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProviders
+import com.example.project.PagerAdapter
 import com.example.project.viewmodel.SharedViewModel
 import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.android.synthetic.main.fragment_home.*
 import com.example.project.R
-
-
 
 // Fragment クラスを継承
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -54,6 +53,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // データの設定
         // 引数にデータ数と縦軸のメモリを指定
         lineChart.data = lineData()
+
+        val fragmentList = arrayListOf<Fragment>(
+            ScrollFragment(), RecordFragment()
+        )
+
+        /// adapterのインスタンス生成
+        val adapter = fragmentManager?.let {
+            PagerAdapter(
+                it,
+                fragmentList
+            )
+        }
+
+        /// adapterをセット
+        viewPager.adapter = adapter
     }
 
     private fun updateView() {

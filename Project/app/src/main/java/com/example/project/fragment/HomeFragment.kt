@@ -8,13 +8,15 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.project.viewmodel.SharedViewModel
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.example.project.R
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.Entry
 import kotlinx.android.synthetic.main.fragment_home.*
+import com.example.project.R
+
+
 
 // Fragment クラスを継承
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -29,8 +31,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     // スタイルとフォントファミリーの設定
     private var mTypeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
-    // データの個数
-    private val chartDataCount = 7
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,7 +53,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // データの設定
         // 引数にデータ数と縦軸のメモリを指定
-        lineChart.data = lineData(chartDataCount, 10f)
+        lineChart.data = lineData()
     }
 
     private fun updateView() {
@@ -64,26 +64,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     // データ作成
-    private fun lineData(count: Int, range: Float):LineData {
+    private fun lineData():LineData {
 
         val values = mutableListOf<Entry>()
 
-        for (i in 0 until count) {
-            // 値はランダムで表示させる
-            val value = (Math.random() * (range)).toFloat()
-            values.add(Entry(i.toFloat(), value))
-        }
+        values.add(Entry(1.toFloat(), 0.toFloat()))
+        values.add(Entry(2.toFloat(), 15.toFloat()))
+        values.add(Entry(3.toFloat(), 9.toFloat()))
+        values.add(Entry(4.toFloat(), 90.toFloat()))
+        values.add(Entry(5.toFloat(), 9.toFloat()))
+        values.add(Entry(6.toFloat(), 90.toFloat()))
 
         // グラフのレイアウトの設定
         val yVals = LineDataSet(values, "体重").apply {
-            axisDependency =  YAxis.AxisDependency.LEFT
-            color = Color.BLACK
-            // タップ時のハイライトカラー
-            highLightColor = Color.YELLOW
+            // 線の色
+            color = Color.WHITE
             setDrawCircles(true)
             setDrawCircleHole(true)
             // 点の値非表示
-            setDrawValues(false)
+            setDrawValues(true)
+            valueTextColor = Color.BLACK
+            // テキストサイズ
+            valueTextSize = 12f
             // 線の太さ
             lineWidth = 2f
         }
@@ -95,42 +97,40 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setupLineChart(){
         lineChart.apply {
             description.isEnabled = false
-            setTouchEnabled(true)
+            setTouchEnabled(false)
             isDragEnabled = true
             // 拡大縮小可能
             isScaleXEnabled = true
             setPinchZoom(false)
+            // グラフの描画領域の背景指定
             setDrawGridBackground(false)
 
             //データラベルの表示
             legend.apply {
                 form = Legend.LegendForm.LINE
                 typeface = mTypeface
-                textSize = 11f
-                textColor = Color.BLACK
+                textSize = 15f
+                textColor = Color.WHITE
                 verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
                 horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
                 orientation = Legend.LegendOrientation.HORIZONTAL
                 setDrawInside(false)
             }
 
-            //y軸右側の設定
-            axisRight.isEnabled = true
-
-            //X軸表示
-            xAxis.apply {
-                typeface = mTypeface
-                setDrawLabels(false)
-                // 格子線を表示する
-                setDrawGridLines(true)
+            axisLeft.apply {
+                isEnabled = false
+                // 横線
+                setDrawGridLines(false)
             }
 
-            //y軸左側の表示
-            axisLeft.apply {
-                typeface = mTypeface
-                textColor = Color.BLACK
-                // 格子線を表示する
-                setDrawGridLines(true)
+            axisRight.apply {
+                isEnabled = false
+                setDrawGridLines(false)
+            }
+
+            // X軸の設定
+            xAxis.apply {
+                isEnabled = false
             }
         }
     }

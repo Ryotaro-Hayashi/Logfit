@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.project.PagerAdapter
@@ -39,7 +38,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         lineChart.data = lineData()
 
         val fragmentList = arrayListOf<Fragment>(
-            ScrollFragment(), RecordFragment()
+            TodayFragment(), RecordFragment()
         )
 
         /// adapterのインスタンス生成

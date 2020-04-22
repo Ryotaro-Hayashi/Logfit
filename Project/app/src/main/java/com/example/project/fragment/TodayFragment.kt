@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.project.R
 import com.example.project.viewmodel.SharedViewModel
 
-class ScrollFragment : Fragment(R.layout.fragment_scroll) {
+class TodayFragment : Fragment(R.layout.fragment_today) {
 
     private lateinit var model: SharedViewModel
 

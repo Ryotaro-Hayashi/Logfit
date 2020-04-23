@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" tools:ignore="ExtraText">
+    <!-- 選択するとwhite_frame.xmlを適用する -->
+    <item
+        android:state_focused="true" android:state_pressed="true"  android:drawable="@drawable/white_frame"
+        />
+
+    <item
+        android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/white_frame"
+        />
+
+    　　<!-- デフォルトの状態ではblack_frame.xmlを適用する -->
+
+    <item android:drawable="@drawable/black_frame" />
+</selector>

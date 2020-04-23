@@ -11,4 +11,9 @@
 
     <!-- ボトムナビゲーションのアイコンのグレー -->
     <color name="grey">#888888</color>
+
+    <!-- recordページなどで使う透明 -->
+    <color name="transparent">#00000000</color>
+
+    <color name="textColor">#555555</color>
 </resources>

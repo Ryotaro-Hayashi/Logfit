@@ -1,20 +1,22 @@
 package com.example.project.fragment
 
-import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
+
+
 
 // Fragment クラスを継承
 class RecordFragment : Fragment(R.layout.fragment_record) {

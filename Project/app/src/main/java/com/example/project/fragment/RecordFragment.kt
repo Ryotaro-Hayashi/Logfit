@@ -1,21 +1,20 @@
 package com.example.project.fragment
 
-import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
 import android.content.Intent
-import android.graphics.ImageDecoder
-import android.net.Uri
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
-import java.io.IOException
 
 // Fragment クラスを継承
 class RecordFragment : Fragment(R.layout.fragment_record) {
@@ -27,8 +26,6 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     private lateinit var bodyFatPercentageForm: EditText // 体脂肪入力フォーム
     private lateinit var skeletalMusclePercentageForm: EditText // 骨格筋率入力フォーム
     private lateinit var basalMetabolicRateForm: EditText // 基礎代謝入力フォーム
-
-    private val READ_REQUEST_CODE = 42
 
     private lateinit var contentResolver: ContentResolver
     private lateinit var imageView: ImageView
@@ -50,10 +47,8 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
 
         val imagePicker = view.findViewById<Button>(R.id.imagePicker)
         imagePicker.setOnClickListener {
-            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.type = "image/*"
-            startActivityForResult(intent, READ_REQUEST_CODE)
+            // 画像の選択
+            selectPhoto()
         }
 
         // 登録ボタン
@@ -93,19 +88,44 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            val uri: Uri?
-            if (resultData != null) {
-                uri = resultData.data
+    // ピッカーから画像を選択すると、onActivityResult() が呼び出される
+    // 選択した画像を指す URI が resultData パラメータに含まれ返ってくる
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+//        if (resultCode != RESULT_OK) {
+//            return
+//        }
+        when (requestCode) {
+            READ_REQUEST_CODE -> {
                 try {
-                    val source = uri?.let { ImageDecoder.createSource(contentResolver, it) }
-                    val bitmap = source?.let { ImageDecoder.decodeBitmap(it) }
-                    imageView.setImageBitmap(bitmap)
-                } catch (e: IOException) {
+                    data?.data?.also { uri ->
+                        val inputStream = contentResolver?.openInputStream(uri)
+                        val image = BitmapFactory.decodeStream(inputStream)
+                        val imageView = view!!.findViewById<ImageView>(R.id.imageView)
+                        imageView.setImageBitmap(image)
+                    }
+                }
+                catch (e: Exception) {
                     e.printStackTrace()
+//                    Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show()
                 }
             }
         }
+    }
+
+    // 写真の選択
+    private fun selectPhoto() {
+        // ピッカーを使用してファイルを選択するためのIntent
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            // 開くことができるファイルのカテゴリーを選択
+            addCategory(Intent.CATEGORY_OPENABLE)
+            // 取得するファイルの形式をフィルター
+            type = "image/*"
+        }
+        startActivityForResult(intent, READ_REQUEST_CODE)
+    }
+
+    companion object {
+        private const val READ_REQUEST_CODE: Int = 42
     }
 }

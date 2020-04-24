@@ -54,7 +54,7 @@
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="登録"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -123,18 +123,18 @@
         android:layout_width="85dp"
         android:layout_height="85dp"
         app:layout_constraintBottom_toTopOf="@+id/registerButtonDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imagePicker"
+        app:layout_constraintEnd_toStartOf="@+id/imagePicker"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imagePickerDivider" />
 
     <Button
         android:id="@+id/imagePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        android:text="写真を追加"
         app:layout_constraintBottom_toTopOf="@+id/registerButtonDivider"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imagePickerDivider" />
 
     <View

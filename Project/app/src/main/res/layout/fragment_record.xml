@@ -10,47 +10,57 @@
         android:id="@+id/recordTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="今日の記録"
+        android:textColor="@color/textColor"
         android:textSize="21sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/bodyWeightView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="体重"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/bodyFatPercentageDivider"
         app:layout_constraintEnd_toStartOf="@id/bodyWeightForm"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bodyWeightDivider"
-        app:layout_constraintBottom_toTopOf="@+id/bodyFatPercentageDivider"/>
+        app:layout_constraintTop_toBottomOf="@+id/bodyWeightDivider" />
 
     <TextView
         android:id="@+id/bodyFatPercentageView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="体脂肪率"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentageDivider"
         app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentageFrom"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentageDivider" />
 
     <EditText
         android:id="@+id/bodyWeightForm"
-        android:layout_width="54dp"
+        android:layout_width="0dp"
         android:layout_height="35dp"
-        android:background="@drawable/text_frame"
+        android:background="@color/transparent"
         android:inputType="numberDecimal"
+        android:text=""
         android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/bodyFatPercentageDivider"
+        app:layout_constraintEnd_toStartOf="@+id/kg"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/bodyWeightView"
-        app:layout_constraintTop_toBottomOf="@+id/bodyWeightDivider"
-        app:layout_constraintEnd_toStartOf="@+id/kg" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyWeightDivider" />
 
     <Button
         android:id="@+id/registerButton"
@@ -59,62 +69,74 @@
         android:text="登録"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.735"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerButtonDivider" />
 
     <TextView
         android:id="@+id/skeletalMusclePercentage"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="骨格筋率"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/basalMetabolicRateDivider"
         app:layout_constraintEnd_toStartOf="@+id/skeletalMusclePercentageForm"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentageDivider" />
 
     <EditText
         android:id="@+id/bodyFatPercentageFrom"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_width="104dp"
+        android:layout_height="34dp"
         android:background="#00000000"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentageDivider"
         app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentageUnit"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/bodyFatPercentageView"
         app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentageDivider" />
 
     <EditText
         android:id="@+id/skeletalMusclePercentageForm"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/basalMetabolicRateDivider"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/skeletalMusclePercentageUnit"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/skeletalMusclePercentage"
         app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentageDivider" />
 
     <TextView
         android:id="@+id/basalMetabolicRate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="基礎代謝"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRateDivider"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/imagePickerDivider"
-        app:layout_constraintEnd_toStartOf="@+id/basalMetabolicRateForm"/>
+        app:layout_constraintEnd_toStartOf="@+id/basalMetabolicRateForm"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRateDivider" />
 
     <EditText
         android:id="@+id/basalMetabolicRateForm"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/imagePickerDivider"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/kcal"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/basalMetabolicRate"
         app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRateDivider" />
 
@@ -122,10 +144,12 @@
         android:id="@+id/imageView"
         android:layout_width="85dp"
         android:layout_height="85dp"
+        android:background="@drawable/image_frame"
         app:layout_constraintBottom_toTopOf="@+id/registerButtonDivider"
         app:layout_constraintEnd_toStartOf="@+id/imagePicker"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imagePickerDivider" />
+        app:layout_constraintTop_toBottomOf="@+id/imagePickerDivider"
+        app:layout_constraintVertical_bias="0.463" />
 
     <Button
         android:id="@+id/imagePicker"
@@ -134,12 +158,12 @@
         android:text="写真を追加"
         app:layout_constraintBottom_toTopOf="@+id/registerButtonDivider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imagePickerDivider" />
 
     <View
         android:id="@+id/bodyWeightDivider"
-        android:layout_width="409dp"
+        android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@id/bodyWeightView"
@@ -199,42 +223,46 @@
 
     <TextView
         android:id="@+id/kg"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="kg"
         app:layout_constraintBottom_toTopOf="@+id/bodyFatPercentageDivider"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/bodyWeightForm"
         app:layout_constraintTop_toBottomOf="@+id/bodyWeightDivider" />
 
     <TextView
         android:id="@+id/bodyFatPercentageUnit"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="%"
         app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentageDivider"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/bodyFatPercentageFrom"
         app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentageDivider" />
 
     <TextView
         android:id="@+id/skeletalMusclePercentageUnit"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="%"
         app:layout_constraintBottom_toTopOf="@+id/basalMetabolicRateDivider"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/basalMetabolicRateForm"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintStart_toEndOf="@+id/skeletalMusclePercentageForm"
         app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentageDivider" />
 
     <TextView
         android:id="@+id/kcal"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="kcal"
         app:layout_constraintBottom_toTopOf="@+id/imagePickerDivider"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/basalMetabolicRateForm"
         app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRateDivider" />
 

@@ -15,5 +15,9 @@
     <!-- recordページなどで使う透明 -->
     <color name="transparent">#00000000</color>
 
+    <!-- 文字色に使うグレー -->
     <color name="textColor">#555555</color>
+
+    <!-- 文字色に使うグレー -->
+    <color name="blank">#DDDDDD</color>
 </resources>

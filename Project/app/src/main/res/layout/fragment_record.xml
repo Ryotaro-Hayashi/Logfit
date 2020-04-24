@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:text="今日の記録"
         android:textSize="21sp"
-        app:layout_constraintBottom_toTopOf="@+id/divider"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,18 +24,18 @@
         android:text="体重"
         app:layout_constraintEnd_toStartOf="@id/bodyWeightForm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider"
-        app:layout_constraintBottom_toTopOf="@+id/divider3"/>
+        app:layout_constraintTop_toBottomOf="@+id/bodyWeightDivider"
+        app:layout_constraintBottom_toTopOf="@+id/bodyFatPercentageDivider"/>
 
     <TextView
         android:id="@+id/bodyFatPercentageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="体脂肪率"
-        app:layout_constraintBottom_toTopOf="@+id/divider4"
+        app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentageDivider"
         app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentageFrom"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentageDivider" />
 
     <EditText
         android:id="@+id/bodyWeightForm"
@@ -47,10 +47,10 @@
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/divider3"
+        app:layout_constraintBottom_toTopOf="@+id/bodyFatPercentageDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bodyWeightView"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyWeightDivider" />
 
     <Button
         android:id="@+id/registerButton"
@@ -59,18 +59,19 @@
         android:text="登録"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.735"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider7"/>
+        app:layout_constraintTop_toBottomOf="@+id/registerButtonDivider" />
 
     <TextView
         android:id="@+id/skeletalMusclePercentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="骨格筋率"
-        app:layout_constraintBottom_toTopOf="@+id/divider5"
+        app:layout_constraintBottom_toTopOf="@+id/basalMetabolicRateDivider"
         app:layout_constraintEnd_toStartOf="@+id/skeletalMusclePercentageForm"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider4" />
+        app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentageDivider" />
 
     <EditText
         android:id="@+id/bodyFatPercentageFrom"
@@ -79,10 +80,10 @@
         android:background="#00000000"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@+id/divider4"
+        app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentageDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bodyFatPercentageView"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+        app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentageDivider" />
 
     <EditText
         android:id="@+id/skeletalMusclePercentageForm"
@@ -91,10 +92,10 @@
         android:background="#00000000"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@+id/divider5"
+        app:layout_constraintBottom_toTopOf="@+id/basalMetabolicRateDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/skeletalMusclePercentage"
-        app:layout_constraintTop_toBottomOf="@+id/divider4" />
+        app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentageDivider" />
 
     <TextView
         android:id="@+id/basalMetabolicRate"
@@ -102,8 +103,8 @@
         android:layout_height="wrap_content"
         android:text="基礎代謝"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider5"
-        app:layout_constraintBottom_toTopOf="@+id/divider6"
+        app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRateDivider"
+        app:layout_constraintBottom_toTopOf="@+id/imagePickerDivider"
         app:layout_constraintEnd_toStartOf="@+id/basalMetabolicRateForm"/>
 
     <EditText
@@ -112,19 +113,19 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="numberDecimal"
-        app:layout_constraintBottom_toTopOf="@+id/divider6"
+        app:layout_constraintBottom_toTopOf="@+id/imagePickerDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/basalMetabolicRate"
-        app:layout_constraintTop_toBottomOf="@+id/divider5" />
+        app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRateDivider" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        app:layout_constraintBottom_toTopOf="@+id/divider7"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        app:layout_constraintBottom_toTopOf="@+id/registerButtonDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imagePicker"
-        app:layout_constraintTop_toBottomOf="@+id/divider6" />
+        app:layout_constraintTop_toBottomOf="@+id/imagePickerDivider" />
 
     <Button
         android:id="@+id/imagePicker"
@@ -132,12 +133,12 @@
         android:layout_height="wrap_content"
         android:text="Button"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintBottom_toTopOf="@+id/divider7"
+        app:layout_constraintBottom_toTopOf="@+id/registerButtonDivider"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider6" />
+        app:layout_constraintTop_toBottomOf="@+id/imagePickerDivider" />
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/bodyWeightDivider"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
@@ -147,7 +148,7 @@
         app:layout_constraintTop_toBottomOf="@id/recordTitle" />
 
     <View
-        android:id="@+id/divider3"
+        android:id="@+id/bodyFatPercentageDivider"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
@@ -157,7 +158,7 @@
         app:layout_constraintTop_toBottomOf="@id/bodyWeightView" />
 
     <View
-        android:id="@+id/divider4"
+        android:id="@+id/skeletalMusclePercentageDivider"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
@@ -167,7 +168,7 @@
         app:layout_constraintBottom_toTopOf="@id/skeletalMusclePercentage"/>
 
     <View
-        android:id="@+id/divider5"
+        android:id="@+id/basalMetabolicRateDivider"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
@@ -177,7 +178,7 @@
         app:layout_constraintTop_toBottomOf="@id/skeletalMusclePercentage" />
 
     <View
-        android:id="@+id/divider6"
+        android:id="@+id/imagePickerDivider"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
@@ -187,7 +188,7 @@
         app:layout_constraintBottom_toTopOf="@id/imagePicker"/>
 
     <View
-        android:id="@+id/divider7"
+        android:id="@+id/registerButtonDivider"
         android:layout_width="409dp"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"

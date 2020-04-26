@@ -1,11 +1,10 @@
 package com.example.project.fragment
 
 import android.content.ContentResolver
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,10 +12,10 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import com.example.project.DBHelper
+import com.example.project.PhysicalRecordTable
 import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
-
-
 
 // Fragment クラスを継承
 class RecordFragment : Fragment(R.layout.fragment_record) {
@@ -31,6 +30,9 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
 
     private lateinit var contentResolver: ContentResolver
     private lateinit var imageView: ImageView
+
+    // テーブルのidを初期化
+    open var physicalRecordId = 0L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,6 +57,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
 
         // 登録ボタン
         val registerButton = view.findViewById<Button>(R.id.registerButton)
+
         registerButton.setOnClickListener {
             // 登録ボタンからHomeへの画面遷移
             val action = RecordFragmentDirections.actionNavigationRecordToNavigationHome()
@@ -87,7 +90,22 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             } else {
                 model.basalMetabolicRate = basalMetabolicRateForm.text.toString()
             }
+
+            // データベースにアクセス
+            val dbHelper = DBHelper(activity!!)
+
+            val values = ContentValues().apply{
+                put(PhysicalRecordTable.COLUMN_NAME_BODY_WEIGHT, bodyWeightForm.text.toString())
+            }
+
+            // 書き込みモードでデータにアクセス
+            val db = dbHelper.writableDatabase
+
+            // テーブルに書き込み
+            physicalRecordId = db.insert(PhysicalRecordTable.TABLE_NAME, null, values)
+            db.close()
         }
+
     }
 
     // ピッカーから画像を選択すると、onActivityResult() が呼び出される

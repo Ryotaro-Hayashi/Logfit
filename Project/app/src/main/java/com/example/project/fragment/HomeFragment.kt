@@ -3,10 +3,13 @@ package com.example.project.fragment
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.project.DBHelper
 import com.example.project.PagerAdapter
+import com.example.project.PhysicalRecordContract
 import com.example.project.viewmodel.SharedViewModel
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.Entry
@@ -51,6 +54,37 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         /// adapterをセット
         viewPager.adapter = adapter
+
+        val dbHelper = DBHelper(activity!!)
+
+        val db = dbHelper.readableDatabase
+
+        val projection = arrayOf(BaseColumns._ID,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
+
+        val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
+        val selectionArgs = arrayOf("56")
+
+        val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
+
+        val cursor = db.query(
+            PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME,   // The table to query
+            projection,             // The array of columns to return (pass null to get all)
+            selection,              // The columns for the WHERE clause
+            selectionArgs,          // The values for the WHERE clause
+            null,                   // don't group the rows
+            null,                   // don't filter by row groups
+            sortOrder               // The sort order
+        )
+
+        with(cursor) {
+            while (moveToNext()) {
+                val itemId = getString(getColumnIndexOrThrow(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT))
+                model.basalMetabolicRate = itemId
+            }
+        }
     }
 
     // データ作成

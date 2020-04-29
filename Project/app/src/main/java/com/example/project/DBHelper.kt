@@ -4,30 +4,32 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.provider.BaseColumns
-import com.example.project.fragment.RecordFragment
 
 // テーブルの定義
-object PhysicalRecordTable : BaseColumns {
-    const val TABLE_NAME = "physicalRecord"
-    const val COLUMN_NAME_BODY_WEIGHT = "bodyWeight"
+object PhysicalRecordContract {
+    object PhysicalRecordEntry : BaseColumns {
+        const val TABLE_NAME = "physicalRecord"
+        const val COLUMN_NAME_BODY_WEIGHT = "bodyWeight"
+        const val COLUMN_NAME_BODY_FAT_PERCENTAGE = "bodyFatPercentage"
+        const val COLUMN_NAME_CREATED_AT = "createdAt"
+    }
 }
 
 // テーブル作成のSQL
-private const val SQL_CREATE_PHYSICAL_RECORD = "CREATE TABLE ${PhysicalRecordTable.TABLE_NAME}" +
-        "(${BaseColumns._ID} INTEGER PRIMARY KEY, " +
-        "${PhysicalRecordTable.COLUMN_NAME_BODY_WEIGHT} STRING NOT NULL)"
+private const val SQL_CREATE_TABLE = "CREATE TABLE ${PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME}" +
+        "(${BaseColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} TEXT, " +
+        "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE} TEXT, " +
+        "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT} TIMESTAMP DEFAULT (DATETIME('now','localtime')))"
 
 // テーブル削除のSQL
-private const val SQL_DELETE_PHYSICAL_RECORD = "DROP TABLE IF EXISTS ${PhysicalRecordTable.TABLE_NAME}"
-
-private const val DATABASE_VERSION = 1
-private const val DATABASE_NAME = "Logfit.db"
+private const val SQL_DELETE_PHYSICAL_RECORD = "DROP TABLE IF EXISTS ${PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME}"
 
 
 class DBHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     // テーブル作成
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL(SQL_CREATE_PHYSICAL_RECORD)
+        db?.execSQL(SQL_CREATE_TABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -36,4 +38,12 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null,
         onCreate(db)
     }
 
+    override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+        onUpgrade(db, oldVersion, newVersion)
+    }
+    companion object {
+        // If you change the database schema, you must increment the database version.
+        const val DATABASE_VERSION = 1
+        const val DATABASE_NAME = "Logfit.db"
+    }
 }

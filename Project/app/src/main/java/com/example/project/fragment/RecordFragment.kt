@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.project.DBHelper
-import com.example.project.PhysicalRecordTable
+import com.example.project.PhysicalRecordContract
 import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
 
@@ -32,7 +32,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     private lateinit var imageView: ImageView
 
     // テーブルのidを初期化
-    open var physicalRecordId = 0L
+    private var physicalRecordId = 0L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,7 +74,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             if (bodyFatPercentageForm.text.isBlank()) { // 体重
                 model.bodyFatPercentage = model.blankMessage
             } else {
-                model.bodyFatPercentage = bodyWeightForm.text.toString()
+                model.bodyFatPercentage = bodyFatPercentageForm.text.toString()
             }
 
             // フォームに入力した値を反映
@@ -94,15 +94,16 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             // データベースにアクセス
             val dbHelper = DBHelper(activity!!)
 
-            val values = ContentValues().apply{
-                put(PhysicalRecordTable.COLUMN_NAME_BODY_WEIGHT, bodyWeightForm.text.toString())
-            }
-
             // 書き込みモードでデータにアクセス
             val db = dbHelper.writableDatabase
 
+            val values = ContentValues().apply{
+                put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT, bodyWeightForm.text.toString())
+                put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE, bodyFatPercentageForm.text.toString())
+            }
+
             // テーブルに書き込み
-            physicalRecordId = db.insert(PhysicalRecordTable.TABLE_NAME, null, values)
+            physicalRecordId = db.insert(PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME, null, values)
             db.close()
         }
 

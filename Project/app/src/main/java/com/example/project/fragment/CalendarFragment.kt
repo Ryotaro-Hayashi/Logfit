@@ -32,7 +32,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         calendarView = view.findViewById(R.id.calendar)
 
         // 初期選択日を取得
-        val defaultDate = calendarView.date
+//        model.today = calendarView.date.toString()
 
         // 日付変更イベントを追加
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->

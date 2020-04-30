@@ -6,6 +6,8 @@ class SharedViewModel : ViewModel() {
 
     var blankMessage: String = "ー"
 
+    var detailDate: String = ""
+
     var bodyWeight: String = blankMessage // 体重
         // private set
 

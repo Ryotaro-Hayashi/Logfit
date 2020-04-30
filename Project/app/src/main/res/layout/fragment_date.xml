@@ -7,14 +7,15 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="189dp"
-        android:layout_height="146dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:background="@drawable/shape_rounded_corners"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.104" />
+        app:layout_constraintVertical_bias="0.498" />
 
     <TextView
         android:id="@+id/bodyWeight"
@@ -118,7 +119,7 @@
         app:layout_constraintBottom_toTopOf="@+id/divider2"
         app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentageView"
         app:layout_constraintStart_toEndOf="@+id/bodyWeightView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/dateView" />
 
     <View
         android:id="@+id/divider2"
@@ -129,4 +130,13 @@
         app:layout_constraintEnd_toStartOf="@+id/basalMetabolicRateView"
         app:layout_constraintStart_toEndOf="@+id/skeletalMusclePercentageView"
         app:layout_constraintTop_toBottomOf="@+id/divider1" />
+
+    <TextView
+        android:id="@+id/dateView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/divider1"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

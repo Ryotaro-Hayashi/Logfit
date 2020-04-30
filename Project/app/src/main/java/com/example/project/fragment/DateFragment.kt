@@ -2,6 +2,7 @@ package com.example.project.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.project.R
@@ -12,11 +13,18 @@ class DateFragment : Fragment(R.layout.fragment_date) {
 
     private lateinit var model: SharedViewModel
 
+    private lateinit var dateView: TextView
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        dateView = view.findViewById(R.id.dateView)
 
         model = activity?.run {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+
+        dateView.text = model.detailDate
+
     }
 }

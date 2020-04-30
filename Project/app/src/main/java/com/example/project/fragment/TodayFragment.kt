@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.project.R
 import com.example.project.viewmodel.SharedViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class TodayFragment : Fragment(R.layout.fragment_today) {
 
@@ -17,6 +19,7 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
     private lateinit var bodyFatPercentageView: TextView
     private lateinit var skeletalMusclePercentageView: TextView
     private lateinit var basalMetabolicRateView: TextView
+    private lateinit var dateView: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -27,9 +30,17 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         skeletalMusclePercentageView = view.findViewById(R.id.skeletalMusclePercentageView)
         basalMetabolicRateView = view.findViewById(R.id.basalMetabolicRateView)
 
+        dateView = view.findViewById(R.id.dateView)
+
         model = activity?.run {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
+
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        val formatted = current.format(formatter)
+
+        dateView.text = formatted
 
         // viewmodelの値をtextViewに格納
         updateView()

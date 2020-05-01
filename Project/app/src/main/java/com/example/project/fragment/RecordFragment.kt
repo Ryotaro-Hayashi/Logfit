@@ -123,42 +123,41 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             db.close()
         }
 
-//        val dbHelper = DBHelper(activity!!)
-//
-//        val db = dbHelper.readableDatabase
-//
-//        val projection = arrayOf(
-//            BaseColumns._ID,
-//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
-//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
-//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP,
-//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
-//
-//        val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
-//        val selectionArgs = arrayOf("56")
-//
-//        val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
-//
-//        val cursor = db.query(
-//            PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME,   // The table to query
-//            projection,             // The array of columns to return (pass null to get all)
-//            selection,              // The columns for the WHERE clause
-//            selectionArgs,          // The values for the WHERE clause
-//            null,                   // don't group the rows
-//            null,                   // don't filter by row groups
-//            sortOrder               // The sort order
-//        )
-//
-//        with(cursor) {
-//            while (moveToNext()) {
-//                val binary = getBlob(getColumnIndexOrThrow(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP))
-//
-////                model.imageData = binary
-//                val bitmap = BitmapFactory.decodeByteArray(binary,0,binary.size)
-//
-////                imageView.setImageBitmap(bitmap)
-//            }
-//        }
+        val dbHelper = DBHelper(activity!!)
+
+        val db = dbHelper.readableDatabase
+
+        val projection = arrayOf(
+            BaseColumns._ID,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
+
+        val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
+        val selectionArgs = arrayOf("100")
+
+        val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
+
+        val cursor = db.query(
+            PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME,   // The table to query
+            projection,             // The array of columns to return (pass null to get all)
+            selection,              // The columns for the WHERE clause
+            selectionArgs,          // The values for the WHERE clause
+            null,                   // don't group the rows
+            null,                   // don't filter by row groups
+            sortOrder               // The sort order
+        )
+
+        with(cursor) {
+            while (moveToNext()) {
+                val binary2 = getBlob(getColumnIndexOrThrow(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP))
+
+                val bitmap2 = BitmapFactory.decodeByteArray(binary2,0,binary2.size)
+
+                imageView.setImageBitmap(bitmap2)
+            }
+        }
 
     }
 
@@ -202,9 +201,9 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
 
     //値セットを取得
     //@param URI
-    private fun getContentValues(binary:ByteArray): ContentValues {
-        return ContentValues().apply {
-            put("${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP}",binary)
-        }
-    }
+//    private fun getContentValues(binary:ByteArray): ContentValues {
+//        return ContentValues().apply {
+//            put("${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP}",binary)
+//        }
+//    }
 }

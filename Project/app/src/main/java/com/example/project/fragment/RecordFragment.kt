@@ -135,7 +135,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
 
         val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
-        val selectionArgs = arrayOf("100")
+        val selectionArgs = arrayOf("90")
 
         val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
 
@@ -177,6 +177,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         }
     }
 
+    // bitmapを取得
     private fun getBitmapFromUri(uri: Uri?): Bitmap? {
         uri?:return null
 
@@ -191,19 +192,9 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     }
 
     //Binaryを取得
-    //@param Bitmap
-    //@return Binary
     private fun getBinaryFromBitmap(bitmap:Bitmap):ByteArray{
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
     }
-
-    //値セットを取得
-    //@param URI
-//    private fun getContentValues(binary:ByteArray): ContentValues {
-//        return ContentValues().apply {
-//            put("${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP}",binary)
-//        }
-//    }
 }

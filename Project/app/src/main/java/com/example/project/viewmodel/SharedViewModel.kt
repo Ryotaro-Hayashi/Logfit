@@ -9,6 +9,7 @@ class SharedViewModel : ViewModel() {
 
     var detailDate: String = ""
 
+    // 投稿した画像のBitmap
     lateinit var imageData: ByteArray
 
     var bodyWeight: String = blankMessage // 体重

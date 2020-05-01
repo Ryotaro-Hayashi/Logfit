@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
+import android.provider.BaseColumns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -20,6 +21,7 @@ import com.example.project.DBHelper
 import com.example.project.PhysicalRecordContract
 import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
+import java.io.ByteArrayOutputStream
 import java.io.FileDescriptor
 
 // Fragment クラスを継承
@@ -33,7 +35,6 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     private lateinit var skeletalMusclePercentageForm: EditText // 骨格筋率入力フォーム
     private lateinit var basalMetabolicRateForm: EditText // 基礎代謝入力フォーム
 
-    private lateinit var contentResolver: ContentResolver
     private lateinit var imageView: ImageView
 
     // テーブルのidを初期化
@@ -62,9 +63,9 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         imagePicker.setOnClickListener {
             // ピッカーを使用してファイルを選択するためのIntent
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                // 開くことができるファイルのカテゴリーを選択
+            // 開くことができるファイルのカテゴリーを選択
             intent.addCategory(Intent.CATEGORY_OPENABLE)
-                // 取得するファイルの形式をフィルター
+            // 取得するファイルの形式をフィルター
             intent.type = "image/*"
             startActivityForResult(Intent.createChooser(intent, "写真を選択"), CHOOSE_PHOTO)
         }
@@ -114,12 +115,50 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             val values = ContentValues().apply {
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT, bodyWeightForm.text.toString())
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE, bodyFatPercentageForm.text.toString())
+                put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP, model.imageData)
             }
 
             // テーブルに書き込み
             physicalRecordId = db.insert(PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME, null, values)
             db.close()
         }
+
+//        val dbHelper = DBHelper(activity!!)
+//
+//        val db = dbHelper.readableDatabase
+//
+//        val projection = arrayOf(
+//            BaseColumns._ID,
+//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
+//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
+//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP,
+//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
+//
+//        val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
+//        val selectionArgs = arrayOf("56")
+//
+//        val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
+//
+//        val cursor = db.query(
+//            PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME,   // The table to query
+//            projection,             // The array of columns to return (pass null to get all)
+//            selection,              // The columns for the WHERE clause
+//            selectionArgs,          // The values for the WHERE clause
+//            null,                   // don't group the rows
+//            null,                   // don't filter by row groups
+//            sortOrder               // The sort order
+//        )
+//
+//        with(cursor) {
+//            while (moveToNext()) {
+//                val binary = getBlob(getColumnIndexOrThrow(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP))
+//
+////                model.imageData = binary
+//                val bitmap = BitmapFactory.decodeByteArray(binary,0,binary.size)
+//
+////                imageView.setImageBitmap(bitmap)
+//            }
+//        }
 
     }
 
@@ -134,7 +173,8 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             bitmap?:return
 
             imageView.setImageBitmap(bitmap)
-//            imageView.setImageResource(R.drawable.shape_rounded_corners)
+
+            model.imageData = getBinaryFromBitmap(bitmap)
         }
     }
 
@@ -149,5 +189,22 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
         parcelFileDescriptor.close()
         return image
+    }
+
+    //Binaryを取得
+    //@param Bitmap
+    //@return Binary
+    private fun getBinaryFromBitmap(bitmap:Bitmap):ByteArray{
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
+    }
+
+    //値セットを取得
+    //@param URI
+    private fun getContentValues(binary:ByteArray): ContentValues {
+        return ContentValues().apply {
+            put("${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP}",binary)
+        }
     }
 }

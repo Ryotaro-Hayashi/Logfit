@@ -1,10 +1,15 @@
 package com.example.project.fragment
 
+import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
+import android.provider.BaseColumns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -16,6 +21,8 @@ import com.example.project.DBHelper
 import com.example.project.PhysicalRecordContract
 import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
+import java.io.ByteArrayOutputStream
+import java.io.FileDescriptor
 
 // Fragment クラスを継承
 class RecordFragment : Fragment(R.layout.fragment_record) {
@@ -28,11 +35,14 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     private lateinit var skeletalMusclePercentageForm: EditText // 骨格筋率入力フォーム
     private lateinit var basalMetabolicRateForm: EditText // 基礎代謝入力フォーム
 
-    private lateinit var contentResolver: ContentResolver
     private lateinit var imageView: ImageView
 
     // テーブルのidを初期化
     private var physicalRecordId = 0L
+
+    companion object {
+        private const val CHOOSE_PHOTO: Int = 110
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,8 +61,13 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
 
         val imagePicker = view.findViewById<Button>(R.id.imagePicker)
         imagePicker.setOnClickListener {
-            // 画像の選択
-            selectPhoto()
+            // ピッカーを使用してファイルを選択するためのIntent
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            // 開くことができるファイルのカテゴリーを選択
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            // 取得するファイルの形式をフィルター
+            intent.type = "image/*"
+            startActivityForResult(Intent.createChooser(intent, "写真を選択"), CHOOSE_PHOTO)
         }
 
         // 登録ボタン
@@ -97,14 +112,51 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             // 書き込みモードでデータにアクセス
             val db = dbHelper.writableDatabase
 
-            val values = ContentValues().apply{
+            val values = ContentValues().apply {
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT, bodyWeightForm.text.toString())
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE, bodyFatPercentageForm.text.toString())
+                put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP, model.imageData)
             }
 
             // テーブルに書き込み
             physicalRecordId = db.insert(PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME, null, values)
             db.close()
+        }
+
+        val dbHelper = DBHelper(activity!!)
+
+        val db = dbHelper.readableDatabase
+
+        val projection = arrayOf(
+            BaseColumns._ID,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
+
+        val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
+        val selectionArgs = arrayOf("90")
+
+        val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
+
+        val cursor = db.query(
+            PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME,   // The table to query
+            projection,             // The array of columns to return (pass null to get all)
+            selection,              // The columns for the WHERE clause
+            selectionArgs,          // The values for the WHERE clause
+            null,                   // don't group the rows
+            null,                   // don't filter by row groups
+            sortOrder               // The sort order
+        )
+
+        with(cursor) {
+            while (moveToNext()) {
+                val binary2 = getBlob(getColumnIndexOrThrow(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP))
+
+                val bitmap2 = BitmapFactory.decodeByteArray(binary2,0,binary2.size)
+
+                imageView.setImageBitmap(bitmap2)
+            }
         }
 
     }
@@ -113,40 +165,36 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     // 選択した画像を指す URI が resultData パラメータに含まれ返ってくる
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode != RESULT_OK) {
-//            return
-//        }
-        when (requestCode) {
-            READ_REQUEST_CODE -> {
-                try {
-                    data?.data?.also { uri ->
-                        val inputStream = contentResolver?.openInputStream(uri)
-                        val image = BitmapFactory.decodeStream(inputStream)
-                        val imageView = view!!.findViewById<ImageView>(R.id.imageView)
-                        imageView.setImageBitmap(image)
-                    }
-                }
-                catch (e: Exception) {
-                    e.printStackTrace()
-//                    Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show()
-                }
-            }
+
+
+        if(requestCode == CHOOSE_PHOTO && resultCode == RESULT_OK && data != null){
+            val bitmap = getBitmapFromUri(data.data)
+            bitmap?:return
+
+            imageView.setImageBitmap(bitmap)
+
+            model.imageData = getBinaryFromBitmap(bitmap)
         }
     }
 
-    // 写真の選択
-    private fun selectPhoto() {
-        // ピッカーを使用してファイルを選択するためのIntent
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            // 開くことができるファイルのカテゴリーを選択
-            addCategory(Intent.CATEGORY_OPENABLE)
-            // 取得するファイルの形式をフィルター
-            type = "image/*"
-        }
-        startActivityForResult(intent, READ_REQUEST_CODE)
+    // bitmapを取得
+    private fun getBitmapFromUri(uri: Uri?): Bitmap? {
+        uri?:return null
+
+        val parcelFileDescriptor: ParcelFileDescriptor? =
+            activity?.contentResolver?.openFileDescriptor(uri, "r")
+        parcelFileDescriptor?:return null
+
+        val fileDescriptor: FileDescriptor = parcelFileDescriptor.fileDescriptor
+        val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        parcelFileDescriptor.close()
+        return image
     }
 
-    companion object {
-        private const val READ_REQUEST_CODE: Int = 42
+    //Binaryを取得
+    private fun getBinaryFromBitmap(bitmap:Bitmap):ByteArray{
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        return byteArrayOutputStream.toByteArray()
     }
 }

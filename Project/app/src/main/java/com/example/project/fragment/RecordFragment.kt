@@ -1,10 +1,14 @@
 package com.example.project.fragment
 
+import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.os.ParcelFileDescriptor
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -16,6 +20,7 @@ import com.example.project.DBHelper
 import com.example.project.PhysicalRecordContract
 import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
+import java.io.FileDescriptor
 
 // Fragment クラスを継承
 class RecordFragment : Fragment(R.layout.fragment_record) {
@@ -34,6 +39,10 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     // テーブルのidを初期化
     private var physicalRecordId = 0L
 
+    companion object {
+        private const val CHOOSE_PHOTO: Int = 110
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,8 +60,13 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
 
         val imagePicker = view.findViewById<Button>(R.id.imagePicker)
         imagePicker.setOnClickListener {
-            // 画像の選択
-            selectPhoto()
+            // ピッカーを使用してファイルを選択するためのIntent
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+                // 開くことができるファイルのカテゴリーを選択
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+                // 取得するファイルの形式をフィルター
+            intent.type = "image/*"
+            startActivityForResult(Intent.createChooser(intent, "写真を選択"), CHOOSE_PHOTO)
         }
 
         // 登録ボタン
@@ -97,7 +111,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             // 書き込みモードでデータにアクセス
             val db = dbHelper.writableDatabase
 
-            val values = ContentValues().apply{
+            val values = ContentValues().apply {
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT, bodyWeightForm.text.toString())
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE, bodyFatPercentageForm.text.toString())
             }
@@ -113,40 +127,27 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     // 選択した画像を指す URI が resultData パラメータに含まれ返ってくる
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-//        if (resultCode != RESULT_OK) {
-//            return
-//        }
-        when (requestCode) {
-            READ_REQUEST_CODE -> {
-                try {
-                    data?.data?.also { uri ->
-                        val inputStream = contentResolver?.openInputStream(uri)
-                        val image = BitmapFactory.decodeStream(inputStream)
-                        val imageView = view!!.findViewById<ImageView>(R.id.imageView)
-                        imageView.setImageBitmap(image)
-                    }
-                }
-                catch (e: Exception) {
-                    e.printStackTrace()
-//                    Toast.makeText(this, "エラーが発生しました", Toast.LENGTH_LONG).show()
-                }
-            }
+
+
+        if(requestCode == CHOOSE_PHOTO && resultCode == RESULT_OK && data != null){
+            val bitmap = getBitmapFromUri(data.data)
+            bitmap?:return
+
+            imageView.setImageBitmap(bitmap)
+//            imageView.setImageResource(R.drawable.shape_rounded_corners)
         }
     }
 
-    // 写真の選択
-    private fun selectPhoto() {
-        // ピッカーを使用してファイルを選択するためのIntent
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            // 開くことができるファイルのカテゴリーを選択
-            addCategory(Intent.CATEGORY_OPENABLE)
-            // 取得するファイルの形式をフィルター
-            type = "image/*"
-        }
-        startActivityForResult(intent, READ_REQUEST_CODE)
-    }
+    private fun getBitmapFromUri(uri: Uri?): Bitmap? {
+        uri?:return null
 
-    companion object {
-        private const val READ_REQUEST_CODE: Int = 42
+        val parcelFileDescriptor: ParcelFileDescriptor? =
+            activity?.contentResolver?.openFileDescriptor(uri, "r")
+        parcelFileDescriptor?:return null
+
+        val fileDescriptor: FileDescriptor = parcelFileDescriptor.fileDescriptor
+        val image: Bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        parcelFileDescriptor.close()
+        return image
     }
 }

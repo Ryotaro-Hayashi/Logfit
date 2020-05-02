@@ -64,8 +64,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
             PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
 
-        val sql = "select bodyWeight, bodyFatPercentage, createdAt from physicalRecord where createdAt <= '2020-05-02 23:59:59' and createdAt >= '2020-05-02 00:00:00';"
-        val cursor = db.rawQuery(sql, null)
+        val dateBegin = model.dateToday + " 23:59:59"
+        val dateEnd = "2020-05-03" + " 00:00:00"
+
+        val sql = "select bodyWeight, bodyFatPercentage, createdAt from physicalRecord where createdAt <= ? and createdAt >= ?;"
+        val cursor = db.rawQuery(sql, arrayOf(dateBegin, dateEnd))
 
         with(cursor) {
             while (moveToNext()) {

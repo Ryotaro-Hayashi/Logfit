@@ -37,8 +37,10 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         } ?: throw Exception("Invalid Activity")
 
         val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val formatted = current.format(formatter)
+
+        model.dateToday = formatted
 
         dateView.text = formatted
 

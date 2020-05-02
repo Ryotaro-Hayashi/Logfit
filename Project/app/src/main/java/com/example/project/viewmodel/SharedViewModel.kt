@@ -9,6 +9,8 @@ class SharedViewModel : ViewModel() {
 
     var detailDate: String = ""
 
+    var dateToday: String = ""
+
     // 投稿した画像のBitmap
     lateinit var imageData: ByteArray
 

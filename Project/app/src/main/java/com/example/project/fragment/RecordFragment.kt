@@ -78,33 +78,33 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             val action = RecordFragmentDirections.actionNavigationRecordToNavigationHome()
             findNavController().navigate(action)
 
-            // フォームに入力した値を反映
-            if (bodyWeightForm.text.isBlank()) { // 体重
-                model.bodyWeight = model.blankMessage
-            } else {
-                model.bodyWeight = bodyWeightForm.text.toString()
-            }
-
-            // フォームに入力した値を反映
-            if (bodyFatPercentageForm.text.isBlank()) { // 体重
-                model.bodyFatPercentage = model.blankMessage
-            } else {
-                model.bodyFatPercentage = bodyFatPercentageForm.text.toString()
-            }
-
-            // フォームに入力した値を反映
-            if (skeletalMusclePercentageForm.text.isBlank()) { // 体重
-                model.skeletalMusclePercentage = model.blankMessage
-            } else {
-                model.skeletalMusclePercentage = skeletalMusclePercentageForm.text.toString()
-            }
-
-            // フォームに入力した値を反映
-            if (basalMetabolicRateForm.text.isBlank()) { // 体重
-                model.basalMetabolicRate = model.blankMessage
-            } else {
-                model.basalMetabolicRate = basalMetabolicRateForm.text.toString()
-            }
+//            // フォームに入力した値を反映
+//            if (bodyWeightForm.text.isBlank()) { // 体重
+//                model.bodyWeight = model.blankMessage
+//            } else {
+//                model.bodyWeight = bodyWeightForm.text.toString()
+//            }
+//
+//            // フォームに入力した値を反映
+//            if (bodyFatPercentageForm.text.isBlank()) { // 体重
+//                model.bodyFatPercentage = model.blankMessage
+//            } else {
+//                model.bodyFatPercentage = bodyFatPercentageForm.text.toString()
+//            }
+//
+//            // フォームに入力した値を反映
+//            if (skeletalMusclePercentageForm.text.isBlank()) { // 体重
+//                model.skeletalMusclePercentage = model.blankMessage
+//            } else {
+//                model.skeletalMusclePercentage = skeletalMusclePercentageForm.text.toString()
+//            }
+//
+//            // フォームに入力した値を反映
+//            if (basalMetabolicRateForm.text.isBlank()) { // 体重
+//                model.basalMetabolicRate = model.blankMessage
+//            } else {
+//                model.basalMetabolicRate = basalMetabolicRateForm.text.toString()
+//            }
 
             // データベースにアクセス
             val dbHelper = DBHelper(activity!!)

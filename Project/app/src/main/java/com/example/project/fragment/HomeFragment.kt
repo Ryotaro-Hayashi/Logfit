@@ -64,27 +64,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
             PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
 
-        val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
-        val selectionArgs = arrayOf("56")
-
-        val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
-
-        val cursor = db.query(
-            PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME,   // The table to query
-            projection,             // The array of columns to return (pass null to get all)
-            selection,              // The columns for the WHERE clause
-            selectionArgs,          // The values for the WHERE clause
-            null,                   // don't group the rows
-            null,                   // don't filter by row groups
-            sortOrder               // The sort order
-        )
+        val sql = "select bodyWeight, bodyFatPercentage, createdAt from physicalRecord where createdAt <= '2020-05-02 23:59:59' and createdAt >= '2020-05-02 00:00:00';"
+        val cursor = db.rawQuery(sql, null)
 
         with(cursor) {
             while (moveToNext()) {
-                val itemId = getString(getColumnIndexOrThrow(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT))
-                model.basalMetabolicRate = itemId
+                model.bodyWeight = cursor.getString(0)
+                model.bodyFatPercentage = cursor.getString(1)
+                model.basalMetabolicRate = cursor.getString(2)
             }
         }
+
+
     }
 
     // データ作成

@@ -1,7 +1,6 @@
 package com.example.project.fragment
 
 import android.app.Activity.RESULT_OK
-import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap

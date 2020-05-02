@@ -1,6 +1,5 @@
 package com.example.project.viewmodel
 
-import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {

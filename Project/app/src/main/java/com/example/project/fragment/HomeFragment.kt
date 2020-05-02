@@ -3,13 +3,10 @@ package com.example.project.fragment
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.provider.BaseColumns
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.project.DBHelper
 import com.example.project.PagerAdapter
-import com.example.project.PhysicalRecordContract
 import com.example.project.viewmodel.SharedViewModel
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.Entry
@@ -54,30 +51,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         /// adapterをセット
         viewPager.adapter = adapter
-
-        val dbHelper = DBHelper(activity!!)
-
-        val db = dbHelper.readableDatabase
-
-        val projection = arrayOf(BaseColumns._ID,
-            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
-            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
-            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
-
-        val dateBegin = model.dateToday + " 23:59:59"
-        val dateEnd = "2020-05-03" + " 00:00:00"
-
-        val sql = "select bodyWeight, bodyFatPercentage, createdAt from physicalRecord where createdAt <= ? and createdAt >= ?;"
-        val cursor = db.rawQuery(sql, arrayOf(dateBegin, dateEnd))
-
-        with(cursor) {
-            while (moveToNext()) {
-                model.bodyWeight = cursor.getString(0)
-                model.bodyFatPercentage = cursor.getString(1)
-                model.basalMetabolicRate = cursor.getString(2)
-            }
-        }
-
 
     }
 

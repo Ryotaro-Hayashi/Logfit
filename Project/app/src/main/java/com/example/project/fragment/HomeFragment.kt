@@ -13,9 +13,10 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.android.synthetic.main.fragment_home.*
 import com.example.project.R
-
+import com.github.mikephil.charting.components.XAxis
 
 
 // Fragment クラスを継承
@@ -134,13 +135,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             // X軸の設定
             xAxis.apply {
-                isEnabled = false
+                isEnabled = true
+                textColor = Color.WHITE
+                setDrawGridLines(false)
 //                setDrawAxisLine(true)
             }
+//            lineChart.animateXY(1500,1000)
         }
 
         val yLeft: YAxis = lineChart.axisLeft
         yLeft.setDrawAxisLine(false);
 
+        val xBottom: XAxis = lineChart.xAxis
+        xBottom.setDrawAxisLine(false);
+
+        val labels = arrayOf(
+            "", "", "3日", "4日"
+            , "5日", "6日", "7日", "7日"
+        )
+
+        val xAxis = lineChart.xAxis
+        xAxis.setValueFormatter(IndexAxisValueFormatter(labels))
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
+
     }
+
 }

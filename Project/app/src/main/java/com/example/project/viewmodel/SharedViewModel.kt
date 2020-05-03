@@ -1,6 +1,5 @@
 package com.example.project.viewmodel
 
-import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
@@ -8,6 +7,8 @@ class SharedViewModel : ViewModel() {
     var blankMessage: String = "ー"
 
     var detailDate: String = ""
+
+    var dateToday: String = ""
 
     // 投稿した画像のBitmap
     lateinit var imageData: ByteArray

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.project.R
 import com.example.project.viewmodel.SharedViewModel
+import kotlinx.android.synthetic.main.fragment_date.*
 
 // Fragment クラスを継承
 class DateFragment : Fragment(R.layout.fragment_date) {
@@ -24,7 +25,10 @@ class DateFragment : Fragment(R.layout.fragment_date) {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
-        dateView.text = model.detailDate
-
+        dateView.text = model.dateDetail
+        bodyWeightView.text = model.bodyWeight.toString() + " kg"
+        bodyFatPercentageView.text = model.bodyFatPercentage.toString() + " %"
+        skeletalMusclePercentageView.text = model.skeletalMusclePercentage.toString() + " ％"
+        basalMetabolicRateView.text = model.basalMetabolicRate.toString() + " kcal"
     }
 }

@@ -63,9 +63,6 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         val dateBegin = model.dateToday + " 23:59:59"
         val dateEnd = model.dateToday + " 00:00:00"
 
-//        val dateBegin = "2020-05-04 23:59:59"
-//        val dateEnd = "2020-05-04 00:00:00"
-
         val sql = "select bodyWeight, bodyFatPercentage, createdAt from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
         val cursor = db.rawQuery(sql, arrayOf(dateBegin, dateEnd))
 

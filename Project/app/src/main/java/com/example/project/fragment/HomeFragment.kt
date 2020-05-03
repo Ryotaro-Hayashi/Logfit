@@ -9,11 +9,14 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.project.PagerAdapter
 import com.example.project.viewmodel.SharedViewModel
 import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.android.synthetic.main.fragment_home.*
 import com.example.project.R
+
+
 
 // Fragment クラスを継承
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -59,26 +62,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val values = mutableListOf<Entry>()
 
-        values.add(Entry(1.toFloat(), 0.toFloat()))
-        values.add(Entry(2.toFloat(), 15.toFloat()))
-        values.add(Entry(3.toFloat(), 9.toFloat()))
-        values.add(Entry(4.toFloat(), 90.toFloat()))
-        values.add(Entry(5.toFloat(), 9.toFloat()))
-        values.add(Entry(6.toFloat(), 90.toFloat()))
+        values.add(Entry(1.toFloat(), 56.toFloat()))
+        values.add(Entry(2.toFloat(), 57.toFloat()))
+        values.add(Entry(3.toFloat(), 56.toFloat()))
+        values.add(Entry(4.toFloat(), 58.toFloat()))
+        values.add(Entry(5.toFloat(), 57.toFloat()))
+        values.add(Entry(6.toFloat(), 59.toFloat()))
+        values.add(Entry(7.toFloat(), 59.toFloat()))
 
         // グラフのレイアウトの設定
         val yVals = LineDataSet(values, "体重").apply {
             // 線の色
-            color = Color.WHITE
+            color = Color.parseColor("#FFA500")
             setDrawCircles(true)
             setDrawCircleHole(true)
+            setCircleColor(Color.parseColor("#FF8C00"))
             // 点の値非表示
-            setDrawValues(true)
-            valueTextColor = Color.BLACK
+            setDrawValues(false)
+            valueTextColor = Color.WHITE
             // テキストサイズ
-            valueTextSize = 12f
+            valueTextSize = 16f
             // 線の太さ
-            lineWidth = 2f
+            lineWidth = 3f
         }
         val data = LineData(yVals)
         return data
@@ -102,27 +107,40 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 typeface = mTypeface
                 textSize = 15f
                 textColor = Color.WHITE
-                verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+                verticalAlignment = Legend.LegendVerticalAlignment.TOP
                 horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
                 orientation = Legend.LegendOrientation.HORIZONTAL
                 setDrawInside(false)
             }
 
             axisLeft.apply {
-                isEnabled = false
-                // 横線
-                setDrawGridLines(false)
+                isEnabled = true
+                textColor = Color.WHITE
+                setDrawLabels(true)
+
+//                // 横線
+//                setDrawGridLines(false)
+//                setDrawAxisLine(true)
+                // ラベルを非表示
+//                setDrawLabels(false)
+//                setDrawZeroLine(true)
             }
 
             axisRight.apply {
                 isEnabled = false
+                setEnabled(false)
                 setDrawGridLines(false)
             }
 
             // X軸の設定
             xAxis.apply {
                 isEnabled = false
+//                setDrawAxisLine(true)
             }
         }
+
+        val yLeft: YAxis = lineChart.axisLeft
+        yLeft.setDrawAxisLine(false);
+
     }
 }

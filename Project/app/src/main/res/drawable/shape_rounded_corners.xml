@@ -3,16 +3,16 @@
     <item>
         <shape android:shape="rectangle">
             <corners
-                android:topRightRadius="10dp"
-                android:bottomRightRadius="10dp"
-                android:bottomLeftRadius="10dp"
-                android:topLeftRadius="10dp"
+                android:topRightRadius="30dp"
+                android:bottomRightRadius="30dp"
+                android:bottomLeftRadius="30dp"
+                android:topLeftRadius="30dp"
                 />
 
             <!-- 枠の中は透明 -->
             <solid android:color="#00000000" />
             <!-- 枠線 -->
-            <stroke android:width="2dp" android:color="#AAAAAA" />
+            <stroke android:width="2dp" android:color="#EEEEEE" />
 
         </shape>
     </item>

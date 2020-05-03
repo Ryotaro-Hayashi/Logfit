@@ -70,7 +70,7 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
             while (moveToNext()) {
                 model.bodyWeight = cursor.getString(0)
                 model.bodyFatPercentage = cursor.getString(1)
-                model.basalMetabolicRate = cursor.getString(2)
+//                model.basalMetabolicRate = cursor.getString(2)
             }
         }
     }

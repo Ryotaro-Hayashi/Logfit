@@ -6,7 +6,7 @@ class SharedViewModel : ViewModel() {
 
     var blankMessage: String = "ー"
 
-    var detailDate: String = ""
+    var dateDetail: String = ""
 
     var dateToday: String = ""
 

@@ -3,12 +3,11 @@ package com.example.project.fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.CalendarView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.example.project.R
 import com.example.project.viewmodel.SharedViewModel
+import com.example.project.R
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,21 +26,36 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
-        val format = SimpleDateFormat("yyyy/MM/dd", Locale.US)
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
         calendarView = view.findViewById(R.id.calendar)
 
+        val c = Calendar.getInstance()
+
         // 初期選択日を取得
-//        model.today = calendarView.date.toString()
+        val defaultDate = calendarView.date
+        model.dateDetail = format.format(defaultDate)
 
         // 日付変更イベントを追加
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            val date = "$year/$month/$dayOfMonth"
-            model.detailDate = date
+            // 月は0から数える仕様になっているので1をたす
+            val year = year.toString()
+            var month = arrangeFormatt(month + 1)
+            var dayOfMonth = arrangeFormatt(dayOfMonth)
+            val date = "$year-$month-$dayOfMonth"
+            model.dateDetail = date
 
             // 画面遷移
             val action = CalendarFragmentDirections.actionNavigationCalendarToNavigationDate()
             findNavController().navigate(action)
+        }
+    }
+
+    private fun arrangeFormatt(x: Int): String {
+        if (x >= 10) {
+            return x.toString()
+        } else {
+            return "0$x"
         }
     }
 }

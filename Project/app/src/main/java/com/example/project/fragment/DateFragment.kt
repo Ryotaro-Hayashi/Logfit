@@ -24,7 +24,7 @@ class DateFragment : Fragment(R.layout.fragment_date) {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
-        dateView.text = model.detailDate
+        dateView.text = model.dateDetail
 
     }
 }

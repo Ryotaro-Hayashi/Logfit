@@ -23,6 +23,7 @@ import com.example.project.R
 import java.io.ByteArrayOutputStream
 import java.io.FileDescriptor
 
+
 // Fragment クラスを継承
 class RecordFragment : Fragment(R.layout.fragment_record) {
 
@@ -158,6 +159,11 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             }
         }
 
+
+
+        if (isEmpty(model.bodyWeight)) {
+            basalMetabolicRateForm.setBackgroundResource(R.drawable.text_frame)
+        }
     }
 
     // ピッカーから画像を選択すると、onActivityResult() が呼び出される
@@ -195,5 +201,9 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
+    }
+
+    private fun isEmpty(model: String) :Boolean {
+        return model == "61"
     }
 }

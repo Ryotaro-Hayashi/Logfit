@@ -84,7 +84,12 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
 
     private fun updateView() {
         bodyWeightView.changeSizeOfText(model.bodyWeight.toString(), "  kg", 26)
-        bodyFatPercentageView.changeSizeOfText(model.bodyFatPercentage.toString(), "  %", 26)
+        if (model.bodyFatPercentage.isEmpty()) {
+            bodyFatPercentageView.changeSizeOfText(model.bodyFatPercentage.toString(), "  %", 26)
+        } else {
+            bodyFatPercentageView.text = "未入力"
+        }
+
         skeletalMusclePercentageView.changeSizeOfText(model.skeletalMusclePercentage.toString(), "  %", 26)
         basalMetabolicRateView.changeSizeOfText(model.basalMetabolicRate, "  kcal", 26)
     }

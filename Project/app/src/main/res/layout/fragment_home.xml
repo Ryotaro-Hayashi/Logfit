@@ -9,7 +9,7 @@
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@drawable/bg_grad">
+        android:background="@drawable/bg_grad_black">
     </com.github.mikephil.charting.charts.LineChart>
 
     <androidx.viewpager.widget.ViewPager

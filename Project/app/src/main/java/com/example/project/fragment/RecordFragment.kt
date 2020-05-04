@@ -5,10 +5,12 @@ import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.provider.BaseColumns
+import android.text.Editable
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -22,6 +24,8 @@ import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
 import java.io.ByteArrayOutputStream
 import java.io.FileDescriptor
+import android.util.Log
+import kotlinx.android.synthetic.main.fragment_date.*
 
 
 // Fragment クラスを継承
@@ -123,47 +127,45 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             db.close()
         }
 
-        val dbHelper = DBHelper(activity!!)
-
-        val db = dbHelper.readableDatabase
-
-        val projection = arrayOf(
-            BaseColumns._ID,
-            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
-            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
-            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP,
-            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
-
-        val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
-        val selectionArgs = arrayOf("90")
-
-        val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
-
-        val cursor = db.query(
-            PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME,   // The table to query
-            projection,             // The array of columns to return (pass null to get all)
-            selection,              // The columns for the WHERE clause
-            selectionArgs,          // The values for the WHERE clause
-            null,                   // don't group the rows
-            null,                   // don't filter by row groups
-            sortOrder               // The sort order
-        )
-
-        with(cursor) {
-            while (moveToNext()) {
-                val binary2 = getBlob(getColumnIndexOrThrow(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP))
-
-                val bitmap2 = BitmapFactory.decodeByteArray(binary2,0,binary2.size)
-
-                imageView.setImageBitmap(bitmap2)
-            }
-        }
-
-        if (isEmpty(model.bodyWeight)) {
-            basalMetabolicRateForm.setBackgroundResource(R.drawable.text_frame)
-        }
+//        val dbHelper = DBHelper(activity!!)
+//
+//        val db = dbHelper.readableDatabase
+//
+//        val projection = arrayOf(
+//            BaseColumns._ID,
+//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
+//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
+//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP,
+//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
+//
+//        val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
+//        val selectionArgs = arrayOf("90")
+//
+//        val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
+//
+//        val cursor = db.query(
+//            PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME,   // The table to query
+//            projection,             // The array of columns to return (pass null to get all)
+//            selection,              // The columns for the WHERE clause
+//            selectionArgs,          // The values for the WHERE clause
+//            null,                   // don't group the rows
+//            null,                   // don't filter by row groups
+//            sortOrder               // The sort order
+//        )
+//
+//        with(cursor) {
+//            while (moveToNext()) {
+//                val binary2 = getBlob(getColumnIndexOrThrow(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP))
+//
+//                val bitmap2 = BitmapFactory.decodeByteArray(binary2,0,binary2.size)
+//
+//                imageView.setImageBitmap(bitmap2)
+//            }
+//        }
 
         bodyWeightForm.setText(model.bodyWeight)
+        bodyFatPercentageForm.setText(model.bodyFatPercentage)
+        basalMetabolicRateForm.setText(model.basalMetabolicRate)
     }
 
     // ピッカーから画像を選択すると、onActivityResult() が呼び出される
@@ -201,9 +203,5 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
         return byteArrayOutputStream.toByteArray()
-    }
-
-    private fun isEmpty(model: String) :Boolean {
-        return model == "61"
     }
 }

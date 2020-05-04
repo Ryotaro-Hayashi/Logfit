@@ -8,124 +8,159 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="300dp"
-        android:layout_height="380dp"
+        android:layout_height="250dp"
         android:background="@drawable/shape_rounded_corners"
+        android:textColor="@color/textColor"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498" />
 
     <TextView
         android:id="@+id/bodyWeight"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="体重"
-        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/bodyWeightView"
         app:layout_constraintEnd_toStartOf="@+id/divider1"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/dateView" />
 
     <!-- 体重の値 -->
     <TextView
-        android:id="@+id/bodyWeightView"
-        android:layout_width="wrap_content"
+        android:id="@+id/bodyWeightViewUnit"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         android:textColor="#FF8C00"
         android:textSize="21sp"
         android:textStyle="normal"
-        app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentage"
         app:layout_constraintEnd_toStartOf="@+id/divider1"
+        app:layout_constraintStart_toEndOf="@+id/bodyWeightView"
+        app:layout_constraintTop_toBottomOf="@+id/bodyWeight"
+        app:layout_constraintHorizontal_weight="1"/>
+
+    <TextView
+        android:id="@+id/bodyWeightView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toStartOf="@+id/divider1"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/bodyWeight" />
 
     <!-- 体脂肪率の見出し -->
     <TextView
         android:id="@+id/bodyFatPercentage"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="体脂肪率"
-        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/bodyFatPercentageView"
         app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toEndOf="@+id/divider1"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/dateView" />
 
     <TextView
         android:id="@+id/bodyFatPercentageView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="#FF8C00"
-        android:textSize="21sp"
+        android:textAlignment="center"
+        android:textColor="#000000"
         android:textStyle="normal"
-        app:layout_constraintBottom_toTopOf="@+id/basalMetabolicRate"
         app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toEndOf="@+id/divider1"
         app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentage" />
 
     <TextView
         android:id="@+id/skeletalMusclePercentageView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="#FF8C00"
-        android:textSize="21sp"
+        android:textAlignment="center"
+        android:textColor="#000000"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/divider1"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentage" />
 
     <TextView
         android:id="@+id/basalMetabolicRateView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="#FF8C00"
-        android:textSize="21sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        android:textAlignment="center"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toEndOf="@+id/divider2"
         app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRate" />
 
     <TextView
         android:id="@+id/basalMetabolicRate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="基礎代謝"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/basalMetabolicRateView"
+        android:textAlignment="center"
+        android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toEndOf="@+id/divider2"
         app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentageView" />
 
     <TextView
         android:id="@+id/skeletalMusclePercentage"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:text="骨格筋率"
-        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentageView"
         app:layout_constraintEnd_toStartOf="@+id/divider2"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/bodyWeightView" />
 
     <View
         android:id="@+id/divider1"
-        android:layout_width="1dp"
-        android:layout_height="70dp"
+        android:layout_width="2dp"
+        android:layout_height="40dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/divider2"
         app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentageView"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/bodyWeightView"
         app:layout_constraintTop_toBottomOf="@+id/dateView" />
 
     <View
         android:id="@+id/divider2"
-        android:layout_width="1dp"
-        android:layout_height="70dp"
+        android:layout_width="2dp"
+        android:layout_height="40dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/basalMetabolicRateView"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/skeletalMusclePercentageView"
         app:layout_constraintTop_toBottomOf="@+id/divider1" />
 
@@ -133,7 +168,11 @@
         android:id="@+id/dateView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/divider1"
+        android:layout_marginTop="20dp"
+        android:drawableLeft="@drawable/ic_date_range_black_24dp"
+        android:drawablePadding="5dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintStart_toStartOf="@+id/textView"
         app:layout_constraintTop_toTopOf="@+id/textView" />

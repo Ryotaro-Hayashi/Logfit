@@ -159,11 +159,11 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             }
         }
 
-
-
         if (isEmpty(model.bodyWeight)) {
             basalMetabolicRateForm.setBackgroundResource(R.drawable.text_frame)
         }
+
+        bodyWeightForm.setText(model.bodyWeight)
     }
 
     // ピッカーから画像を選択すると、onActivityResult() が呼び出される

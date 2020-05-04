@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
 
-    var blankMessage: String = "ー"
+    var blankMessage: String = " "
 
     var dateDetail: String = ""
 

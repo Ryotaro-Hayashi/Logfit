@@ -1,7 +1,14 @@
 package com.example.project.fragment
 
+import android.graphics.Color
+import android.graphics.Typeface.BOLD
 import android.os.Bundle
 import android.provider.BaseColumns
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -70,15 +77,46 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
             while (moveToNext()) {
                 model.bodyWeight = cursor.getString(0)
                 model.bodyFatPercentage = cursor.getString(1)
-                model.basalMetabolicRate = cursor.getString(2)
+//                model.basalMetabolicRate = cursor.getString(2)
             }
         }
     }
 
     private fun updateView() {
-        bodyWeightView.text = model.bodyWeight.toString() + " kg"
-        bodyFatPercentageView.text = model.bodyFatPercentage.toString() + " %"
-        skeletalMusclePercentageView.text = model.skeletalMusclePercentage.toString() + " ％"
-        basalMetabolicRateView.text = model.basalMetabolicRate.toString() + " kcal"
+        bodyWeightView.changeSizeOfText(model.bodyWeight.toString(), "  kg", 26)
+        bodyFatPercentageView.changeSizeOfText(model.bodyFatPercentage.toString(), "  %", 26)
+        skeletalMusclePercentageView.changeSizeOfText(model.skeletalMusclePercentage.toString(), "  %", 26)
+        basalMetabolicRateView.changeSizeOfText(model.basalMetabolicRate, "  kcal", 26)
+    }
+
+    fun TextView.changeSizeOfText(target: String, unit: String, size: Int){
+
+        // 対象となる文字列を引数に渡し、SpannableStringBuilderのインスタンスを生成
+        val spannable = SpannableStringBuilder(target +  unit)
+
+        // 数値のサイズを変更
+        spannable.setSpan(
+            AbsoluteSizeSpan(size, true),
+            0, // start
+            target.length, // end
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        // 数値の色をオレンジに変更
+        spannable.setSpan(
+            ForegroundColorSpan(Color.parseColor("#FF8C00")),
+            0, // start
+            target.length, // end
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        // 数値をboldにする
+        spannable.setSpan(
+            StyleSpan(BOLD),
+            0, // start
+            target.length, // end
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        // TextViewにSpannableStringBuilderをセット
+        text = spannable
     }
 }

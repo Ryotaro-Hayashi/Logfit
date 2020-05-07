@@ -102,14 +102,14 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
             // 対象となる文字列を引数に渡し、SpannableStringBuilderのインスタンスを生成
             val spannable = SpannableStringBuilder(number + unit)
 
-            // 数値のサイズを変更
+            // 単位のサイズを変更
             spannable.setSpan(
                 AbsoluteSizeSpan(size, true),
                 number.length, // start
                 spannable.length, // end
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            // 単位の色をに変更
+            // 数値の色をに変更
             spannable.setSpan(
                 ForegroundColorSpan(Color.parseColor("#FF8C00")),
                 0, // start

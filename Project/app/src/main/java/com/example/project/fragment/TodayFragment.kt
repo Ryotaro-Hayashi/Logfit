@@ -83,45 +83,49 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
     }
 
     private fun updateView() {
-        bodyWeightView.changeSizeOfText(model.bodyWeight.toString(), "  kg", 26)
-        if (model.bodyFatPercentage.isEmpty()) {
-            bodyFatPercentageView.changeSizeOfText(model.bodyFatPercentage.toString(), "  %", 26)
+        bodyWeightView.changeSizeOfText(model.bodyWeight.toString(), "  %", 14)
+        bodyFatPercentageView.changeSizeOfText(model.bodyFatPercentage.toString(), "  %", 14)
+
+        skeletalMusclePercentageView.changeSizeOfText(model.skeletalMusclePercentage.toString(), "  %", 14)
+        basalMetabolicRateView.changeSizeOfText(model.basalMetabolicRate, "  kcal", 14)
+    }
+
+    fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
+
+        if (number.isEmpty()) {
+            val message = "未入力"
+
+            text = message
+            textSize = 14F
+
         } else {
-            bodyFatPercentageView.text = "未入力"
+            // 対象となる文字列を引数に渡し、SpannableStringBuilderのインスタンスを生成
+            val spannable = SpannableStringBuilder(number + unit)
+
+            // 単位のサイズを変更
+            spannable.setSpan(
+                AbsoluteSizeSpan(size, true),
+                number.length, // start
+                spannable.length, // end
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            // 数値の色をに変更
+            spannable.setSpan(
+                ForegroundColorSpan(Color.parseColor("#FF8C00")),
+                0, // start
+                unit.length, // end
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            // 数値をboldにする
+            spannable.setSpan(
+                StyleSpan(BOLD),
+                0, // start
+                number.length, // end
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            // TextViewにSpannableStringBuilderをセット
+            text = spannable
         }
-
-        skeletalMusclePercentageView.changeSizeOfText(model.skeletalMusclePercentage.toString(), "  %", 26)
-        basalMetabolicRateView.changeSizeOfText(model.basalMetabolicRate, "  kcal", 26)
     }
 
-    fun TextView.changeSizeOfText(target: String, unit: String, size: Int){
-
-        // 対象となる文字列を引数に渡し、SpannableStringBuilderのインスタンスを生成
-        val spannable = SpannableStringBuilder(target +  unit)
-
-        // 数値のサイズを変更
-        spannable.setSpan(
-            AbsoluteSizeSpan(size, true),
-            0, // start
-            target.length, // end
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        // 数値の色をオレンジに変更
-        spannable.setSpan(
-            ForegroundColorSpan(Color.parseColor("#FF8C00")),
-            0, // start
-            target.length, // end
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        // 数値をboldにする
-        spannable.setSpan(
-            StyleSpan(BOLD),
-            0, // start
-            target.length, // end
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        // TextViewにSpannableStringBuilderをセット
-        text = spannable
-    }
 }

@@ -29,7 +29,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
-        val format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        // フォーマット
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
         calendarView = view.findViewById(R.id.calendar)
 
@@ -37,7 +38,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
         // 初期選択日を取得
         val defaultDate = calendarView.date
-        model.dateDetail = format.format(defaultDate)
+        model.dateDetail = formatter.format(defaultDate)
 
         // 日付変更イベントを追加
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
@@ -78,6 +79,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         }
     }
 
+    // SQL文で日付を指定するためにフォーマットを修正する関数
     private fun arrangeFormatt(x: Int): String {
         if (x >= 10) {
             return x.toString()

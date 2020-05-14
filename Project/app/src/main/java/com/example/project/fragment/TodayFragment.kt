@@ -91,7 +91,7 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
 
     // 値を表示する関数
     private fun updateView() {
-        bodyWeightView.changeSizeOfText(model.bodyWeight.toString(), "  %", 14)
+        bodyWeightView.changeSizeOfText(model.bodyWeight.toString(), "  kg", 14)
         bodyFatPercentageView.changeSizeOfText(model.bodyFatPercentage.toString(), "  %", 14)
         skeletalMusclePercentageView.changeSizeOfText(model.skeletalMusclePercentage.toString(), "  %", 14)
         basalMetabolicRateView.changeSizeOfText(model.basalMetabolicRate, "  kcal", 14)

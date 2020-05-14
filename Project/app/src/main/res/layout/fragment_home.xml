@@ -12,6 +12,12 @@
         android:background="@drawable/bg_grad_black">
     </com.github.mikephil.charting.charts.LineChart>
 
+    <ImageView
+        android:id="@+id/blackBackground"
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:background="#000000" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

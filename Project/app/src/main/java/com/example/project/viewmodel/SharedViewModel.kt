@@ -4,17 +4,15 @@ import androidx.lifecycle.ViewModel
 
 class SharedViewModel : ViewModel() {
 
-    var blankMessage: String = ""
+    var blankMessage: String = "" // 空のメッセージ
 
-    var dateDetail: String = ""
+    var dateDetail: String = "" // 詳細表示する日付
 
-    var dateToday: String = ""
+    var dateToday: String = "" // 今日の日付
 
-    // 投稿した画像のBitmap
-    lateinit var imageData: ByteArray
+    lateinit var imageData: ByteArray // 画像
 
     var bodyWeight: String = blankMessage // 体重
-        // private set
 
     var bodyFatPercentage: String = blankMessage // 体脂肪率
 

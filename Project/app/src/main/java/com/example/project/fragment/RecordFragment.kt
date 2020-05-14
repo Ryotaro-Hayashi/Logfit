@@ -44,6 +44,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     // テーブルのidを初期化
     private var physicalRecordId = 0L
 
+    // 定数
     companion object {
         private const val CHOOSE_PHOTO: Int = 110
     }
@@ -78,37 +79,10 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         val registerButton = view.findViewById<Button>(R.id.registerButton)
 
         registerButton.setOnClickListener {
-            // 登録ボタンからHomeへの画面遷移
+            // 登録ボタンからHomeへの画面遷移を設定
             val action = RecordFragmentDirections.actionNavigationRecordToNavigationHome()
+            // 画面遷移
             findNavController().navigate(action)
-
-//            // フォームに入力した値を反映
-//            if (bodyWeightForm.text.isBlank()) { // 体重
-//                model.bodyWeight = model.blankMessage
-//            } else {
-//                model.bodyWeight = bodyWeightForm.text.toString()
-//            }
-//
-//            // フォームに入力した値を反映
-//            if (bodyFatPercentageForm.text.isBlank()) { // 体重
-//                model.bodyFatPercentage = model.blankMessage
-//            } else {
-//                model.bodyFatPercentage = bodyFatPercentageForm.text.toString()
-//            }
-//
-//            // フォームに入力した値を反映
-//            if (skeletalMusclePercentageForm.text.isBlank()) { // 体重
-//                model.skeletalMusclePercentage = model.blankMessage
-//            } else {
-//                model.skeletalMusclePercentage = skeletalMusclePercentageForm.text.toString()
-//            }
-//
-//            // フォームに入力した値を反映
-//            if (basalMetabolicRateForm.text.isBlank()) { // 体重
-//                model.basalMetabolicRate = model.blankMessage
-//            } else {
-//                model.basalMetabolicRate = basalMetabolicRateForm.text.toString()
-//            }
 
             // データベースにアクセス
             val dbHelper = DBHelper(activity!!)
@@ -116,6 +90,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             // 書き込みモードでデータにアクセス
             val db = dbHelper.writableDatabase
 
+            // 格納するデータ
             val values = ContentValues().apply {
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT, bodyWeightForm.text.toString())
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE, bodyFatPercentageForm.text.toString())
@@ -127,42 +102,6 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             db.close()
         }
 
-//        val dbHelper = DBHelper(activity!!)
-//
-//        val db = dbHelper.readableDatabase
-//
-//        val projection = arrayOf(
-//            BaseColumns._ID,
-//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
-//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
-//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP,
-//            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
-//
-//        val selection = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} = ?"
-//        val selectionArgs = arrayOf("90")
-//
-//        val sortOrder = "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} DESC"
-//
-//        val cursor = db.query(
-//            PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME,   // The table to query
-//            projection,             // The array of columns to return (pass null to get all)
-//            selection,              // The columns for the WHERE clause
-//            selectionArgs,          // The values for the WHERE clause
-//            null,                   // don't group the rows
-//            null,                   // don't filter by row groups
-//            sortOrder               // The sort order
-//        )
-//
-//        with(cursor) {
-//            while (moveToNext()) {
-//                val binary2 = getBlob(getColumnIndexOrThrow(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP))
-//
-//                val bitmap2 = BitmapFactory.decodeByteArray(binary2,0,binary2.size)
-//
-//                imageView.setImageBitmap(bitmap2)
-//            }
-//        }
-
         bodyWeightForm.setText(model.bodyWeight)
         bodyFatPercentageForm.setText(model.bodyFatPercentage)
         basalMetabolicRateForm.setText(model.basalMetabolicRate)
@@ -173,11 +112,11 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
         if(requestCode == CHOOSE_PHOTO && resultCode == RESULT_OK && data != null){
             val bitmap = getBitmapFromUri(data.data)
             bitmap?:return
 
+            // 画像をセット
             imageView.setImageBitmap(bitmap)
 
             model.imageData = getBinaryFromBitmap(bitmap)
@@ -198,7 +137,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         return image
     }
 
-    //Binaryを取得
+    // Binaryを取得
     private fun getBinaryFromBitmap(bitmap:Bitmap):ByteArray{
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)

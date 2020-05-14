@@ -24,7 +24,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var model: SharedViewModel
 
-    // スタイルとフォントファミリーの設定
+    // グラフのデータラベルのスタイルとフォントファミリーの設定
     private var mTypeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,13 +34,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
-        // グラフの設定
-        setupLineChart()
-
-        // データの設定
-        // 引数にデータ数と縦軸のメモリを指定
+        // グラフの描画
         lineChart.data = lineData()
 
+        // グラフ細かい設定
+        setupLineChart()
+
+        // adapter で表示するフラグメントを設定
         val fragmentList = arrayListOf<Fragment>(
             TodayFragment(), RecordFragment()
         )
@@ -71,15 +71,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         values.add(Entry(6.toFloat(), 59.toFloat()))
         values.add(Entry(7.toFloat(), 59.toFloat()))
 
-        // グラフのレイアウトの設定
+        // グラフの描画設定
         val yVals = LineDataSet(values, "体重").apply {
             // 線の色
             color = Color.parseColor("#FFA500")
+            // 点の円を描画
             setDrawCircles(true)
+            // 点の円の中の穴を描画
             setDrawCircleHole(true)
+            // 点の円の色を設定
             setCircleColor(Color.parseColor("#FF8C00"))
             // 点の値非表示
             setDrawValues(false)
+            // テキストの色を設定
             valueTextColor = Color.WHITE
             // テキストサイズ
             valueTextSize = 16f
@@ -93,69 +97,66 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     // グラフの設定をする関数
     private fun setupLineChart(){
         lineChart.apply {
-            description.isEnabled = false
-            setTouchEnabled(false)
-            isDragEnabled = true
-            // 拡大縮小可能
-            isScaleXEnabled = true
-            setPinchZoom(false)
-            // グラフの描画領域の背景指定
-            setDrawGridBackground(false)
+            // タッチすると出るグリッドを非表示表示
+//             setTouchEnabled()
 
-            //データラベルの表示
+            // データラベルの表示
             legend.apply {
                 form = Legend.LegendForm.LINE
+                // スタイルとフォントの設定
                 typeface = mTypeface
                 textSize = 15f
                 textColor = Color.WHITE
+                // 位置設定
                 verticalAlignment = Legend.LegendVerticalAlignment.TOP
                 horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
                 orientation = Legend.LegendOrientation.HORIZONTAL
-                setDrawInside(false)
             }
 
+            // y軸左側
             axisLeft.apply {
-                isEnabled = true
                 textColor = Color.WHITE
-                setDrawLabels(true)
-
-//                // 横線
-//                setDrawGridLines(false)
-//                setDrawAxisLine(true)
-                // ラベルを非表示
-//                setDrawLabels(false)
-//                setDrawZeroLine(true)
             }
 
+            // y軸右側
             axisRight.apply {
+                // 軸やラベルを無効化
                 isEnabled = false
-                setEnabled(false)
-                setDrawGridLines(false)
             }
 
             // X軸の設定
             xAxis.apply {
                 isEnabled = true
                 textColor = Color.WHITE
+                // x軸のグリッドを無効化
                 setDrawGridLines(false)
-//                setDrawAxisLine(true)
             }
+
+            // アニメーション
 //            lineChart.animateXY(1500,1000)
         }
 
+        // y軸
         val yLeft: YAxis = lineChart.axisLeft
+        // y軸を描画しない
         yLeft.setDrawAxisLine(false);
 
+        // x軸
         val xBottom: XAxis = lineChart.xAxis
+        // x軸を描画しない
         xBottom.setDrawAxisLine(false);
 
+        // x軸のラベル
         val labels = arrayOf(
             "", "", "3日", "4日"
             , "5日", "6日", "7日", "7日"
         )
 
+        // 描画したグラフのx軸を取得
         val xAxis = lineChart.xAxis
+        // x軸のラベルを設定
         xAxis.setValueFormatter(IndexAxisValueFormatter(labels))
+        // x軸のラベルの位置設定
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
 
     }

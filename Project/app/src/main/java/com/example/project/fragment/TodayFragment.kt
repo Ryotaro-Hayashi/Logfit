@@ -49,7 +49,7 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         // 現在時刻を取得
         val current = LocalDateTime.now()
         // フォーマットを指定
-        val formatter = DateTimeFormatter.ofPattern("yyyy-M-d")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         // 現在時刻のフォーマットを指定
         val formatted = current.format(formatter)
 
@@ -74,7 +74,7 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         val dateEnd = model.dateToday + " 00:00:00"
 
         // 今日のデータを取得するSQL文
-        val sql = "select bodyWeight, bodyFatPercentage, createdAt from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
         // データを取得
         val cursor = db.rawQuery(sql, arrayOf(dateBegin, dateEnd))
 
@@ -82,6 +82,9 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
             while (moveToNext()) {
                 model.bodyWeight = cursor.getString(0)
                 model.bodyFatPercentage = cursor.getString(1)
+                model.skeletalMusclePercentage = cursor.getString(2)
+                model.basalMetabolicRate = cursor.getString(3)
+                model.imageData = cursor.getBlob(4)
             }
         }
     }

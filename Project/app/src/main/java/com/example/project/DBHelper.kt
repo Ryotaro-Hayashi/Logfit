@@ -11,6 +11,8 @@ object PhysicalRecordContract {
         const val TABLE_NAME = "physicalRecord"
         const val COLUMN_NAME_BODY_WEIGHT = "bodyWeight"
         const val COLUMN_NAME_BODY_FAT_PERCENTAGE = "bodyFatPercentage"
+        const val COLUMN_NAME_SKELETAL_MUSCLE_PERCENTAGE = "skeletalMusclePercentage"
+        const val COLUMN_NAME_BASAL_METABOLIC_RATE = "basalMetabolicRate"
         const val COLUMN_NAME_BITMAP = "bitmap"
         const val COLUMN_NAME_CREATED_AT = "createdAt"
     }
@@ -21,6 +23,8 @@ private const val SQL_CREATE_TABLE = "CREATE TABLE ${PhysicalRecordContract.Phys
         "(${BaseColumns._ID} INTEGER PRIMARY KEY AUTOINCREMENT, " +
         "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT} TEXT, " +
         "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE} TEXT, " +
+        "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_SKELETAL_MUSCLE_PERCENTAGE} TEXT, " +
+        "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BASAL_METABOLIC_RATE} TEXT, " +
         "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP} BLOB, " +
         "${PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT} TIMESTAMP DEFAULT (DATETIME('now','localtime')))"
 

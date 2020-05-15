@@ -1,5 +1,6 @@
 package com.example.project.fragment
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -30,5 +31,7 @@ class DateFragment : Fragment(R.layout.fragment_date) {
         bodyFatPercentageView.text = model.bodyFatPercentage.toString() + " %"
         skeletalMusclePercentageView.text = model.skeletalMusclePercentage.toString() + " ％"
         basalMetabolicRateView.text = model.basalMetabolicRate.toString() + " kcal"
+        val bitmap = BitmapFactory.decodeByteArray(model.imageData,0,model.imageData.size)
+        imageView.setImageBitmap(bitmap)
     }
 }

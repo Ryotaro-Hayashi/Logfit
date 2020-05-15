@@ -46,6 +46,9 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
+        // 表裏反転
+        view.setRotationY(180F);
+
         // 現在時刻を取得
         val current = LocalDateTime.now()
         // フォーマットを指定

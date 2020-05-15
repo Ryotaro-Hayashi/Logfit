@@ -37,6 +37,7 @@ class DateFragment : Fragment(R.layout.fragment_date) {
 
         updateView()
 
+        // 画像を表示
 //        val bitmap = BitmapFactory.decodeByteArray(model.imageData,0,model.imageData.size)
 //        imageView.setImageBitmap(bitmap)
     }

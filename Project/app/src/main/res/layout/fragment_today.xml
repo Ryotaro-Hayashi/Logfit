@@ -43,8 +43,7 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/bodyWeight"
-        app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentage"/>
+        app:layout_constraintTop_toBottomOf="@+id/bodyWeight" />
 
     <!-- 体脂肪率の見出し -->
     <TextView
@@ -73,8 +72,7 @@
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toEndOf="@+id/divider1"
-        app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentage"
-        app:layout_constraintBottom_toTopOf="@+id/basalMetabolicRate"/>
+        app:layout_constraintTop_toBottomOf="@+id/bodyFatPercentage" />
 
     <TextView
         android:id="@+id/skeletalMusclePercentageView"
@@ -88,8 +86,7 @@
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentage"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"/>
+        app:layout_constraintTop_toBottomOf="@+id/skeletalMusclePercentage" />
 
     <TextView
         android:id="@+id/basalMetabolicRateView"
@@ -102,8 +99,7 @@
         app:layout_constraintEnd_toEndOf="@+id/textView"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toEndOf="@+id/divider2"
-        app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRate"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"/>
+        app:layout_constraintTop_toBottomOf="@+id/basalMetabolicRate" />
 
     <TextView
         android:id="@+id/basalMetabolicRate"
@@ -137,8 +133,7 @@
     <View
         android:id="@+id/divider1"
         android:layout_width="2dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="60dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/divider2"
         app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentageView"
@@ -149,8 +144,7 @@
     <View
         android:id="@+id/divider2"
         android:layout_width="2dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="60dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toStartOf="@+id/basalMetabolicRateView"

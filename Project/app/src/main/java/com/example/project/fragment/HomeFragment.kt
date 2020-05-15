@@ -42,7 +42,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // adapter で表示するフラグメントを設定
         val fragmentList = arrayListOf<Fragment>(
-            TodayFragment(), RecordFragment()
+            TodayFragment(), YesterdayFragment()
         )
 
         /// adapterのインスタンス生成
@@ -55,6 +55,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         /// adapterをセット
         viewPager.adapter = adapter
+
+        viewPager.setRotationY(180F);
 
     }
 

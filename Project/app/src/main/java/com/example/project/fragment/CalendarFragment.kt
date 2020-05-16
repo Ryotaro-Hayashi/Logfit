@@ -59,11 +59,11 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
                 PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
 
-            val dateBegin = model.dateDetail + " 23:59:59"
-            val dateEnd = model.dateDetail + " 00:00:00"
+            val dateBegin = model.dateDetail + " 00:00:00"
+            val dateEnd = model.dateDetail + " 23:59:59"
 
             val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
-            val cursor = db.rawQuery(sql, arrayOf(dateBegin, dateEnd))
+            val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
 
             with(cursor) {
                 while (moveToNext()) {

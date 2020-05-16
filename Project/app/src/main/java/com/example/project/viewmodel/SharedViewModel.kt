@@ -10,6 +10,8 @@ class SharedViewModel : ViewModel() {
 
     var dateToday: String = "" // 今日の日付
 
+    var dateYesterday: String = "" // 昨日の日付
+
     lateinit var imageData: ByteArray // 画像
 
     var bodyWeight: String = blankMessage // 体重
@@ -19,5 +21,13 @@ class SharedViewModel : ViewModel() {
     var skeletalMusclePercentage: String = blankMessage // 骨格筋率
 
     var basalMetabolicRate: String = blankMessage // 基礎代謝
+
+    var yesterdayBodyWeight: String = blankMessage // 体重
+
+    var yesterdayBodyFatPercentage: String = blankMessage // 体脂肪率
+
+    var yesterdaySkeletalMusclePercentage: String = blankMessage // 骨格筋率
+
+    var yesterdayBasalMetabolicRate: String = blankMessage // 基礎代謝
 
 }

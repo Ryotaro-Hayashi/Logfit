@@ -72,14 +72,14 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         val db = dbHelper.readableDatabase
 
         // 今日の始まり
-        val dateBegin = model.dateToday + " 23:59:59"
+        val dateBegin = model.dateToday + " 00:00:00"
         // 今日の終わり
-        val dateEnd = model.dateToday + " 00:00:00"
+        val dateEnd = model.dateToday + " 23:59:59"
 
         // 今日のデータを取得するSQL文
         val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
         // データを取得
-        val cursor = db.rawQuery(sql, arrayOf(dateBegin, dateEnd))
+        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
 
         with(cursor) {
             while (moveToNext()) {

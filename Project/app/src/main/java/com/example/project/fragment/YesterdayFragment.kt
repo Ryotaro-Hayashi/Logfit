@@ -70,32 +70,31 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
         val db = dbHelper.readableDatabase
 
         // 今日の始まり
-        val dateBegin = model.dateToday + " 23:59:59"
+        val dateBegin = model.dateYesterday + " 00:00:00"
         // 今日の終わり
-        val dateEnd = model.dateToday + " 00:00:00"
+        val dateEnd = model.dateYesterday + " 23:59:59"
 
         // 今日のデータを取得するSQL文
-        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
         // データを取得
-        val cursor = db.rawQuery(sql, arrayOf(dateBegin, dateEnd))
+        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
 
         with(cursor) {
             while (moveToNext()) {
-                model.bodyWeight = cursor.getString(0)
-                model.bodyFatPercentage = cursor.getString(1)
-                model.skeletalMusclePercentage = cursor.getString(2)
-                model.basalMetabolicRate = cursor.getString(3)
-                model.imageData = cursor.getBlob(4)
+                model.yesterdayBodyWeight = cursor.getString(0)
+                model.yesterdayBodyFatPercentage = cursor.getString(1)
+                model.yesterdaySkeletalMusclePercentage = cursor.getString(2)
+                model.yesterdayBasalMetabolicRate = cursor.getString(3)
             }
         }
     }
 
     // 値を表示する関数
     private fun updateView() {
-        bodyWeightView.changeSizeOfText(model.bodyWeight.toString(), "  kg", 14)
-        bodyFatPercentageView.changeSizeOfText(model.bodyFatPercentage.toString(), "  %", 14)
-        skeletalMusclePercentageView.changeSizeOfText(model.skeletalMusclePercentage.toString(), "  %", 14)
-        basalMetabolicRateView.changeSizeOfText(model.basalMetabolicRate, "  kcal", 14)
+        bodyWeightView.changeSizeOfText(model.yesterdayBodyWeight.toString(), "  kg", 14)
+        bodyFatPercentageView.changeSizeOfText(model.yesterdayBodyFatPercentage.toString(), "  %", 14)
+        skeletalMusclePercentageView.changeSizeOfText(model.yesterdaySkeletalMusclePercentage.toString(), "  %", 14)
+        basalMetabolicRateView.changeSizeOfText(model.yesterdayBasalMetabolicRate, "  kcal", 14)
     }
 
     // TextViewの一部のスタイルを変更する関数

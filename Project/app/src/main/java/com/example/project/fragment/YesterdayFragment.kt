@@ -48,13 +48,14 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
 
         // 現在時刻を取得
         val current = LocalDateTime.now()
+        val yesterday = current.minusDays(1)
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         // 現在時刻のフォーマットを指定
-        val formatted = current.format(formatter)
+        val formatted = yesterday.format(formatter)
 
         //今日の日付
-        model.dateToday = formatted
+        model.dateYesterday = formatted
 
         // 今日の日付を表示
         dateView.text = formatted

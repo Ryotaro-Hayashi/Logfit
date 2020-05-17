@@ -85,20 +85,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val dataArray: Array<Float?> = arrayOfNulls(6)
 
-
-        with(cursor) {
-            while (moveToNext()) {
-                dataArray[0] = cursor.getFloat(0)
+        for (i in dataArray.indices) {
+            with(cursor) {
+                while (moveToNext()) {
+                    dataArray[i] = cursor.getFloat(i)
+                }
             }
         }
 
-        dataArray[0]?.let { Entry(1F, it) }?.let { values.add(it) }
+        dataArray[0]?.let { Entry(0F, it) }?.let { values.add(it) }
+        values.add(Entry(1.toFloat(), 59.toFloat()))
         values.add(Entry(2.toFloat(), 57.toFloat()))
         values.add(Entry(3.toFloat(), 56.toFloat()))
         values.add(Entry(4.toFloat(), 58.toFloat()))
         values.add(Entry(5.toFloat(), 57.toFloat()))
         values.add(Entry(6.toFloat(), 59.toFloat()))
-        values.add(Entry(7.toFloat(), 59.toFloat()))
+//        dataArray[0]?.let { Entry(7F, it) }?.let { values.add(it) }
 
         // グラフの描画設定
         val yVals = LineDataSet(values, "体重").apply {

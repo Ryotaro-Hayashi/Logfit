@@ -3,6 +3,7 @@ package com.example.project.fragment
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -20,7 +21,6 @@ import com.example.project.R
 import com.github.mikephil.charting.components.XAxis
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-
 
 // Fragment クラスを継承
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -60,7 +60,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewPager.adapter = adapter
 
         viewPager.setRotationY(180F);
-
     }
 
     // データ作成
@@ -75,18 +74,23 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val db = dbHelper.readableDatabase
 
         var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
+        // 日付データ
         var dateFormatted: Array<String?> = arrayOfNulls(7)
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
+        // 登録データ
         var dataArray: Array<Float?> = arrayOfNulls(7) // 取得したデータを格納する配列
 
         for (i in dataArray.indices) {
             if (i == 0) {
+                // 今日の日付を格納
                 dateArrayBeforeFormatted[i] = LocalDateTime.now()
             } else {
+                // index の分をマイナスした日付を格納
                 dateArrayBeforeFormatted[i] = LocalDateTime.now().minusDays(i.toLong())
             }
+            // フォーマットを変更
             dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
 
             val dateBegin = dateFormatted[i].toString() + " 00:00:00"
@@ -102,7 +106,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     dataArray[i] = cursor.getFloat(0)
                 }
             }
+        }
 
+        dataArray.reverse() // 配列を降順に変更
+
+        for (i in dataArray.indices) { // グラフにデータをプロット
             dataArray[i]?.let { Entry(i.toFloat(), it) }?.let { values.add(it) }
         }
 
@@ -196,12 +204,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
         }
 
+        dateFormatted.reverse() // 配列を降順に変更
+
         // 描画したグラフのx軸を取得
         val xAxis = lineChart.xAxis
         // x軸のラベルを設定
         xAxis.setValueFormatter(IndexAxisValueFormatter(dateFormatted))
         // x軸のラベルの位置設定
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
-
     }
+
 }

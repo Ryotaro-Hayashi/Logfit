@@ -1,5 +1,6 @@
 package com.example.project.fragment
 
+import android.database.Cursor
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -18,7 +19,8 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.android.synthetic.main.fragment_home.*
 import com.example.project.R
 import com.github.mikephil.charting.components.XAxis
-import kotlinx.android.synthetic.main.fragment_date.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 // Fragment クラスを継承
@@ -72,35 +74,43 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // 読み込み専用で接続
         val db = dbHelper.readableDatabase
+        var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
+        var dateFormatted: Array<String?> = arrayOfNulls(7)
+        // フォーマットを指定
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-        // 今日の始まり
-        val dateBegin = model.dateToday + " 00:00:00"
-        // 今日の終わり
-        val dateEnd = model.dateToday + " 23:59:59"
+        var dateBegin: String
+        var dateEnd: String
 
-        // 今日のデータを取得するSQL文
-        val sql = "select bodyWeight from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
-        // データを取得
-        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
+        var sql: String
+        var cursor: Cursor
 
-        val dataArray: Array<Float?> = arrayOfNulls(6)
+        var dataArray: Array<Float?> = arrayOfNulls(7)
 
-        for (i in dataArray.indices) {
+        for (i in dateArrayBeforeFormatted.indices) {
+            if (i == 0) {
+                dateArrayBeforeFormatted[i] = LocalDateTime.now()
+            } else {
+                dateArrayBeforeFormatted[i] = LocalDateTime.now().minusDays(i.toLong())
+            }
+            dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
+
+            dateBegin = dateFormatted[i].toString() + " 00:00:00"
+            dateEnd = dateFormatted[i].toString() + " 23:59:59"
+
+            // 今日のデータを取得するSQL文
+            sql = "select bodyWeight from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+            // データを取得
+            cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
+
             with(cursor) {
                 while (moveToNext()) {
-                    dataArray[i] = cursor.getFloat(i)
+                    dataArray[i] = cursor.getFloat(0)
                 }
             }
-        }
 
-        dataArray[0]?.let { Entry(0F, it) }?.let { values.add(it) }
-        values.add(Entry(1.toFloat(), 59.toFloat()))
-        values.add(Entry(2.toFloat(), 57.toFloat()))
-        values.add(Entry(3.toFloat(), 56.toFloat()))
-        values.add(Entry(4.toFloat(), 58.toFloat()))
-        values.add(Entry(5.toFloat(), 57.toFloat()))
-        values.add(Entry(6.toFloat(), 59.toFloat()))
-//        dataArray[0]?.let { Entry(7F, it) }?.let { values.add(it) }
+            dataArray[i]?.let { Entry(i.toFloat(), it) }?.let { values.add(it) }
+        }
 
         // グラフの描画設定
         val yVals = LineDataSet(values, "体重").apply {

@@ -1,6 +1,5 @@
 package com.example.project.fragment
 
-import android.database.Cursor
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -74,20 +73,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         // 読み込み専用で接続
         val db = dbHelper.readableDatabase
+
         var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
         var dateFormatted: Array<String?> = arrayOfNulls(7)
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-        var dateBegin: String
-        var dateEnd: String
+        var dataArray: Array<Float?> = arrayOfNulls(7) // 取得したデータを格納する配列
 
-        var sql: String
-        var cursor: Cursor
-
-        var dataArray: Array<Float?> = arrayOfNulls(7)
-
-        for (i in dateArrayBeforeFormatted.indices) {
+        for (i in dataArray.indices) {
             if (i == 0) {
                 dateArrayBeforeFormatted[i] = LocalDateTime.now()
             } else {
@@ -95,13 +89,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
 
-            dateBegin = dateFormatted[i].toString() + " 00:00:00"
-            dateEnd = dateFormatted[i].toString() + " 23:59:59"
+            val dateBegin = dateFormatted[i].toString() + " 00:00:00"
+            val dateEnd = dateFormatted[i].toString() + " 23:59:59"
 
-            // 今日のデータを取得するSQL文
-            sql = "select bodyWeight from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+            // データを取得するSQL文
+            val sql = "select bodyWeight from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
             // データを取得
-            cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
+            val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
 
             with(cursor) {
                 while (moveToNext()) {
@@ -185,21 +179,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // x軸
         val xBottom: XAxis = lineChart.xAxis
         // x軸を描画しない
-        xBottom.setDrawAxisLine(false);
+        xBottom.setDrawAxisLine(false)
 
+        var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
         // x軸のラベル
-        val labels = arrayOf(
-            "", "", "3日", "4日"
-            , "5日", "6日", "7日", "7日"
-        )
+        var dateFormatted: Array<String?> = arrayOfNulls(7)
+        // フォーマットを指定
+        val formatter = DateTimeFormatter.ofPattern("M/d")
+
+        for (i in dateFormatted.indices) {
+            if (i == 0) {
+                dateArrayBeforeFormatted[i] = LocalDateTime.now()
+            } else {
+                dateArrayBeforeFormatted[i] = LocalDateTime.now().minusDays(i.toLong())
+            }
+            dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
+        }
 
         // 描画したグラフのx軸を取得
         val xAxis = lineChart.xAxis
         // x軸のラベルを設定
-        xAxis.setValueFormatter(IndexAxisValueFormatter(labels))
+        xAxis.setValueFormatter(IndexAxisValueFormatter(dateFormatted))
         // x軸のラベルの位置設定
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
 
     }
-
 }

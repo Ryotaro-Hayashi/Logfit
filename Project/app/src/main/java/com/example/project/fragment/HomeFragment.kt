@@ -79,19 +79,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val dateEnd = model.dateToday + " 23:59:59"
 
         // 今日のデータを取得するSQL文
-        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+        val sql = "select bodyWeight from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
         // データを取得
         val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
 
-        var todayBodyWeight : Float = 0F
+        val dataArray: Array<Float?> = arrayOfNulls(6)
+
 
         with(cursor) {
             while (moveToNext()) {
-                todayBodyWeight = cursor.getFloat(0)
+                dataArray[0] = cursor.getFloat(0)
             }
         }
 
-        values.add(Entry(1F, todayBodyWeight))
+        dataArray[0]?.let { Entry(1F, it) }?.let { values.add(it) }
         values.add(Entry(2.toFloat(), 57.toFloat()))
         values.add(Entry(3.toFloat(), 56.toFloat()))
         values.add(Entry(4.toFloat(), 58.toFloat()))

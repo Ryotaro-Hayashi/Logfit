@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.project.DBHelper
 import com.example.project.PagerAdapter
 import com.example.project.viewmodel.SharedViewModel
 import com.github.mikephil.charting.components.Legend
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.android.synthetic.main.fragment_home.*
 import com.example.project.R
 import com.github.mikephil.charting.components.XAxis
+import kotlinx.android.synthetic.main.fragment_date.*
 
 
 // Fragment クラスを継承
@@ -65,7 +67,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val values = mutableListOf<Entry>()
 
-        values.add(Entry(1.toFloat(), 56.toFloat()))
+        // データベースのクラスをインスタンス化
+        val dbHelper = DBHelper(activity!!)
+
+        // 読み込み専用で接続
+        val db = dbHelper.readableDatabase
+
+        // 今日の始まり
+        val dateBegin = model.dateToday + " 00:00:00"
+        // 今日の終わり
+        val dateEnd = model.dateToday + " 23:59:59"
+
+        // 今日のデータを取得するSQL文
+        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+        // データを取得
+        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
+
+        var todayBodyWeight : Float = 0F
+
+        with(cursor) {
+            while (moveToNext()) {
+                todayBodyWeight = cursor.getFloat(0)
+            }
+        }
+
+        values.add(Entry(1F, todayBodyWeight))
         values.add(Entry(2.toFloat(), 57.toFloat()))
         values.add(Entry(3.toFloat(), 56.toFloat()))
         values.add(Entry(4.toFloat(), 58.toFloat()))

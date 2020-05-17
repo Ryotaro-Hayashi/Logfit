@@ -1,0 +1,41 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    // バージョン指定
+    ext {
+        build_gradle_version = '3.5.1'
+        kotlin_version = '1.3.61'
+        nav_version = '2.1.0'
+        jvm_version = '1.8'
+        nav_version = '2.1.0'
+        jvm_version = '1.8'
+        lifecycle_version = '2.1.0'
+    }
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // Safe Args は、画面遷移時に渡すデータに安全にアクセスできるビルダークラスを生成してくれる
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+        // Graph
+        maven {
+            url 'https://jitpack.io'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

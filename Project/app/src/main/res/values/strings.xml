@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Project</string>
+    <string name="title_home">Home</string>
+    <string name="title_record">Record</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_date">Date</string>
+    <string name="blank_messsage"><font size="14">未入力</font></string>
+</resources>

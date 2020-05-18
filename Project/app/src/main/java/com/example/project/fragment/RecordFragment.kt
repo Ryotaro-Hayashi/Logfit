@@ -75,13 +75,14 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             startActivityForResult(Intent.createChooser(intent, "写真を選択"), CHOOSE_PHOTO)
         }
 
-        bodyWeightForm.setText(model.bodyWeight)
-        bodyFatPercentageForm.setText(model.bodyFatPercentage)
-        skeletalMusclePercentageForm.setText(model.skeletalMusclePercentage)
-        basalMetabolicRateForm.setText(model.basalMetabolicRate)
-            // bytearrayをbitmapに変換
-//            val bitmap = BitmapFactory.decodeByteArray(model.imageData,0,model.imageData.size)
-//            imageView.setImageBitmap(bitmap)
+        bodyWeightForm.setText(model.todayData[0])
+        bodyFatPercentageForm.setText(model.todayData[1])
+        skeletalMusclePercentageForm.setText(model.todayData[2])
+        basalMetabolicRateForm.setText(model.todayData[3])
+
+        // bytearrayをbitmapに変換
+        val bitmap = BitmapFactory.decodeByteArray(model.todayImageData,0,model.todayImageData.size)
+        imageView.setImageBitmap(bitmap)
 
         // 登録ボタン
         val registerButton = view.findViewById<Button>(R.id.registerButton)
@@ -104,7 +105,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE, bodyFatPercentageForm.text.toString())
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_SKELETAL_MUSCLE_PERCENTAGE, skeletalMusclePercentageForm.text.toString())
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BASAL_METABOLIC_RATE, basalMetabolicRateForm.text.toString())
-                put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP, model.imageData)
+                put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP, model.todayImageData)
             }
 
             // テーブルに書き込み
@@ -125,7 +126,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             // 画像をセット
             imageView.setImageBitmap(bitmap)
 
-            model.imageData = getBinaryFromBitmap(bitmap)
+            model.todayImageData = getBinaryFromBitmap(bitmap)
         }
     }
 

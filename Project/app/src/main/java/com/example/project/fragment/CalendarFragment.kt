@@ -71,11 +71,11 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
             with(cursor) {
                 while (moveToNext()) {
-                    model.bodyWeight = cursor.getString(0)
-                    model.bodyFatPercentage = cursor.getString(1)
-                    model.skeletalMusclePercentage = cursor.getString(2)
-                    model.basalMetabolicRate = cursor.getString(3)
-                    model.imageData = cursor.getBlob(4)
+                    model.detailDayData[0] = cursor.getString(0)
+                    model.detailDayData[1] = cursor.getString(1)
+                    model.detailDayData[2] = cursor.getString(2)
+                    model.detailDayData[3] = cursor.getString(3)
+                    model.detailDayImageData = cursor.getBlob(4)
                 }
             }
 

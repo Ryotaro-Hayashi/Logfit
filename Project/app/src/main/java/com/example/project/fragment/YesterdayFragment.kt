@@ -81,29 +81,27 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
 
         with(cursor) {
             while (moveToNext()) {
-                model.yesterdayBodyWeight = cursor.getString(0)
-                model.yesterdayBodyFatPercentage = cursor.getString(1)
-                model.yesterdaySkeletalMusclePercentage = cursor.getString(2)
-                model.yesterdayBasalMetabolicRate = cursor.getString(3)
+                model.yesterdayData[0] = cursor.getString(0)
+                model.yesterdayData[1] = cursor.getString(1)
+                model.yesterdayData[2] = cursor.getString(2)
+                model.yesterdayData[3] = cursor.getString(3)
             }
         }
     }
 
     // 値を表示する関数
     private fun updateView() {
-        bodyWeightView.changeSizeOfText(model.yesterdayBodyWeight.toString(), "  kg", 14)
-        bodyFatPercentageView.changeSizeOfText(model.yesterdayBodyFatPercentage.toString(), "  %", 14)
-        skeletalMusclePercentageView.changeSizeOfText(model.yesterdaySkeletalMusclePercentage.toString(), "  %", 14)
-        basalMetabolicRateView.changeSizeOfText(model.yesterdayBasalMetabolicRate, "  kcal", 14)
+        model.yesterdayData[0]?.let { bodyWeightView.changeSizeOfText(it, "  kg", 14) }
+        model.yesterdayData[1]?.let { bodyFatPercentageView.changeSizeOfText(it, "  %", 14) }
+        model.yesterdayData[2]?.let { skeletalMusclePercentageView.changeSizeOfText(it, "  %", 14) }
+        model.yesterdayData[3]?.let { basalMetabolicRateView.changeSizeOfText(it, "  kcal", 14) }
     }
 
     // TextViewの一部のスタイルを変更する関数
     fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
 
         if (number.isEmpty()) {
-            val message = "未入力"
-
-            text = message
+            text = "未入力"
             textSize = 14F
 
         } else {

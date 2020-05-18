@@ -38,25 +38,23 @@ class DateFragment : Fragment(R.layout.fragment_date) {
         updateView()
 
         // 画像を表示
-//        val bitmap = BitmapFactory.decodeByteArray(model.imageData,0,model.imageData.size)
-//        imageView.setImageBitmap(bitmap)
+        val bitmap = BitmapFactory.decodeByteArray(model.detailDayImageData,0,model.detailDayImageData.size)
+        imageView.setImageBitmap(bitmap)
     }
 
     // 値を表示する関数
     private fun updateView() {
-        bodyWeightView.changeSizeOfText(model.bodyWeight.toString(), "  kg", 14)
-        bodyFatPercentageView.changeSizeOfText(model.bodyFatPercentage.toString(), "  %", 14)
-        skeletalMusclePercentageView.changeSizeOfText(model.skeletalMusclePercentage.toString(), "  %", 14)
-        basalMetabolicRateView.changeSizeOfText(model.basalMetabolicRate, "  kcal", 14)
+        model.detailDayData[0]?.let { bodyWeightView.changeSizeOfText(it, "  kg", 14) }
+        model.detailDayData[1]?.let { bodyFatPercentageView.changeSizeOfText(it, "  %", 14) }
+        model.detailDayData[2]?.let { skeletalMusclePercentageView.changeSizeOfText(it, "  %", 14) }
+        model.detailDayData[3]?.let { basalMetabolicRateView.changeSizeOfText(it, "  kcal", 14) }
     }
 
     // TextViewの一部のスタイルを変更する関数
     fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
 
         if (number.isEmpty()) {
-            val message = "未入力"
-
-            text = message
+            text = "未入力"
             textSize = 14F
 
         } else {

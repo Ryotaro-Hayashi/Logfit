@@ -11,6 +11,7 @@ import com.example.project.DBHelper
 import com.example.project.PhysicalRecordContract
 import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
+import kotlinx.android.synthetic.main.fragment_calendar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,12 +30,15 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
-        // フォーマット
-        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-
         calendarView = view.findViewById(R.id.calendar)
 
-        val c = Calendar.getInstance()
+        val calendar = Calendar.getInstance()
+
+        // カレンダーの選択可能日を設定
+        calendarView.maxDate = calendar.timeInMillis
+
+        // フォーマット
+        val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 
         // 初期選択日を取得
         val defaultDate = calendarView.date

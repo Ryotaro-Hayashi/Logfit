@@ -122,7 +122,7 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
             spannable.setSpan(
                 ForegroundColorSpan(Color.parseColor("#FF8C00")),
                 0, // start
-                unit.length, // end
+                number.length, // end
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             // 数値をboldにする

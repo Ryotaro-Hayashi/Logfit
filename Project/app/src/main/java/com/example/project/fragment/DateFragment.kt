@@ -38,8 +38,8 @@ class DateFragment : Fragment(R.layout.fragment_date) {
         updateView()
 
         // 画像を表示
-        val bitmap = BitmapFactory.decodeByteArray(model.detailDayImageData,0,model.detailDayImageData.size)
-        imageView.setImageBitmap(bitmap)
+//        val bitmap = BitmapFactory.decodeByteArray(model.detailDayImageData,0,model.detailDayImageData.size)
+//        imageView.setImageBitmap(bitmap)
     }
 
     // 値を表示する関数

@@ -81,8 +81,8 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         basalMetabolicRateForm.setText(model.todayData[3])
 
         // bytearrayをbitmapに変換
-        val bitmap = BitmapFactory.decodeByteArray(model.todayImageData,0,model.todayImageData.size)
-        imageView.setImageBitmap(bitmap)
+//        val bitmap = BitmapFactory.decodeByteArray(model.todayImageData,0,model.todayImageData.size)
+//        imageView.setImageBitmap(bitmap)
 
         // 登録ボタン
         val registerButton = view.findViewById<Button>(R.id.registerButton)

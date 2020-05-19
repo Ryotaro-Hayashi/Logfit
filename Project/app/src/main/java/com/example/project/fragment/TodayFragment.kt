@@ -62,9 +62,6 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         // 今日の日付を表示
         dateView.text = formatted
 
-        // viewmodelの値をtextViewに格納
-        updateView()
-
         // データベースのクラスをインスタンス化
         val dbHelper = DBHelper(activity!!)
 
@@ -90,6 +87,9 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
                 model.todayImageData = cursor.getBlob(4)
             }
         }
+
+        // viewmodelの値をtextViewに格納
+        updateView()
     }
 
     // 値を表示する関数

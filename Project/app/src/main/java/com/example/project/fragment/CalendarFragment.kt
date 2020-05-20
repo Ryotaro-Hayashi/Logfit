@@ -53,32 +53,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             val date = "$year-$month-$dayOfMonth"
             model.dateDetail = date
 
-            val dbHelper = DBHelper(activity!!)
-
-            val db = dbHelper.readableDatabase
-
-            val projection = arrayOf(
-                BaseColumns._ID,
-                PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
-                PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
-                PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
-
-            val dateBegin = model.dateDetail + " 00:00:00"
-            val dateEnd = model.dateDetail + " 23:59:59"
-
-            val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
-            val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
-
-            with(cursor) {
-                while (moveToNext()) {
-                    model.detailDayData[0] = cursor.getString(0)
-                    model.detailDayData[1] = cursor.getString(1)
-                    model.detailDayData[2] = cursor.getString(2)
-                    model.detailDayData[3] = cursor.getString(3)
-                    model.detailDayImageData = cursor.getBlob(4)
-                }
-            }
-
             // 画面遷移
             val action = CalendarFragmentDirections.actionNavigationCalendarToNavigationDate()
             findNavController().navigate(action)

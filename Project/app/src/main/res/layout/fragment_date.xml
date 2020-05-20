@@ -40,12 +40,12 @@
         android:gravity="center|center_vertical"
         android:textColor="@color/textColor"
         android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentage"
+        app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentageView"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/bodyWeight"
-        app:layout_constraintEnd_toStartOf="@+id/bodyFatPercentageView"
-        app:layout_constraintBottom_toTopOf="@+id/skeletalMusclePercentage"/>
+        app:layout_constraintTop_toBottomOf="@+id/bodyWeight" />
 
     <!-- 体脂肪率の見出し -->
     <TextView

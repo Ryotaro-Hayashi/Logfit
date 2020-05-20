@@ -10,6 +10,7 @@ import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -27,8 +28,8 @@ class DateFragment : Fragment(R.layout.fragment_date) {
 
     private lateinit var dateView: TextView
 
-    var detailDayData: Array<String?> = arrayOfNulls(4) // 詳細表示する日の登録データ
-    lateinit var  detailDayImageData: ByteArray // 詳細表示する日に登録した画像データ
+    private var detailDayData: Array<String?> = arrayOf("", "", "", "") // 詳細表示する日の登録データ
+    private lateinit var  detailDayImageData: ByteArray // 詳細表示する日に登録した画像データ
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,6 +69,10 @@ class DateFragment : Fragment(R.layout.fragment_date) {
         }
 
         updateView()
+
+        for (i in detailDayData.indices) {
+            Log.d("TAG", detailDayData[i].toString())
+        }
 
         // 画像を表示
 //        val bitmap = BitmapFactory.decodeByteArray(model.detailDayImageData,0,model.detailDayImageData.size)

@@ -28,7 +28,7 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
     private lateinit var basalMetabolicRateView: TextView
     private lateinit var dateView: TextView
 
-    var yesterdayData: Array<String?> = arrayOf("", "", "", "") // 昨日の登録データ
+    private var yesterdayData: Array<String?> = arrayOf("", "", "", "") // 昨日の登録データ
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,8 +56,8 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
         // 現在時刻のフォーマットを指定
         val formatted = yesterday.format(formatter)
 
-        //今日の日付
-        model.dateYesterday = formatted
+        // 昨日の日付
+        var dateYesterday = formatted
 
         // 今日の日付を表示
         dateView.text = formatted
@@ -69,9 +69,9 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
         val db = dbHelper.readableDatabase
 
         // 今日の始まり
-        val dateBegin = model.dateYesterday + " 00:00:00"
+        val dateBegin = dateYesterday + " 00:00:00"
         // 今日の終わり
-        val dateEnd = model.dateYesterday + " 23:59:59"
+        val dateEnd = dateYesterday + " 23:59:59"
 
         // 今日のデータを取得するSQL文
         val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"

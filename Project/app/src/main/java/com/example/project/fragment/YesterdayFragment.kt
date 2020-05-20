@@ -28,6 +28,8 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
     private lateinit var basalMetabolicRateView: TextView
     private lateinit var dateView: TextView
 
+    var yesterdayData: Array<String?> = arrayOf("", "", "", "") // 昨日の登録データ
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -78,10 +80,10 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
 
         with(cursor) {
             while (moveToNext()) {
-                model.yesterdayData[0] = cursor.getString(0)
-                model.yesterdayData[1] = cursor.getString(1)
-                model.yesterdayData[2] = cursor.getString(2)
-                model.yesterdayData[3] = cursor.getString(3)
+                yesterdayData[0] = cursor.getString(0)
+                yesterdayData[1] = cursor.getString(1)
+                yesterdayData[2] = cursor.getString(2)
+                yesterdayData[3] = cursor.getString(3)
             }
         }
 
@@ -91,10 +93,10 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
 
     // 値を表示する関数
     private fun updateView() {
-        model.yesterdayData[0]?.let { bodyWeightView.changeSizeOfText(it, "  kg", 14) }
-        model.yesterdayData[1]?.let { bodyFatPercentageView.changeSizeOfText(it, "  %", 14) }
-        model.yesterdayData[2]?.let { skeletalMusclePercentageView.changeSizeOfText(it, "  %", 14) }
-        model.yesterdayData[3]?.let { basalMetabolicRateView.changeSizeOfText(it, "  kcal", 14) }
+        yesterdayData[0]?.let { bodyWeightView.changeSizeOfText(it, "  kg", 14) }
+        yesterdayData[1]?.let { bodyFatPercentageView.changeSizeOfText(it, "  %", 14) }
+        yesterdayData[2]?.let { skeletalMusclePercentageView.changeSizeOfText(it, "  %", 14) }
+        yesterdayData[3]?.let { basalMetabolicRateView.changeSizeOfText(it, "  kcal", 14) }
     }
 
     // TextViewの一部のスタイルを変更する関数

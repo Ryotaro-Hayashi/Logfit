@@ -209,9 +209,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // 描画したグラフのx軸を取得
         val xAxis = lineChart.xAxis
         // x軸のラベルを設定
-        xAxis.setValueFormatter(IndexAxisValueFormatter(dateFormatted))
+        xAxis.valueFormatter = IndexAxisValueFormatter(dateFormatted)
         // x軸のラベルの位置設定
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
     }
 
 }

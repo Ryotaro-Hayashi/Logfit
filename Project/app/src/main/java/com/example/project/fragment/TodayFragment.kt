@@ -57,7 +57,7 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         val formatted = current.format(formatter)
 
         //今日の日付
-        model.dateToday = formatted
+        var dateToday = formatted
 
         // 今日の日付を表示
         dateView.text = formatted
@@ -69,9 +69,9 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         val db = dbHelper.readableDatabase
 
         // 今日の始まり
-        val dateBegin = model.dateToday + " 00:00:00"
+        val dateBegin = dateToday + " 00:00:00"
         // 今日の終わり
-        val dateEnd = model.dateToday + " 23:59:59"
+        val dateEnd = dateToday + " 23:59:59"
 
         // 今日のデータを取得するSQL文
         val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"

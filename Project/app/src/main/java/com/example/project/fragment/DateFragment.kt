@@ -4,15 +4,19 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.provider.BaseColumns
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import com.example.project.DBHelper
+import com.example.project.PhysicalRecordContract
 import com.example.project.R
 import com.example.project.viewmodel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_date.*
@@ -23,6 +27,9 @@ class DateFragment : Fragment(R.layout.fragment_date) {
     private lateinit var model: SharedViewModel
 
     private lateinit var dateView: TextView
+
+    private var detailDayData: Array<String?> = arrayOf("", "", "", "") // 詳細表示する日の登録データ
+    private lateinit var  detailDayImageData: ByteArray // 詳細表示する日に登録した画像データ
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +42,37 @@ class DateFragment : Fragment(R.layout.fragment_date) {
 
         dateView.text = model.dateDetail
 
+        val dbHelper = DBHelper(activity!!)
+
+        val db = dbHelper.readableDatabase
+
+        val projection = arrayOf(
+            BaseColumns._ID,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_WEIGHT,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE,
+            PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_CREATED_AT)
+
+        val dateBegin = model.dateDetail + " 00:00:00"
+        val dateEnd = model.dateDetail + " 23:59:59"
+
+        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
+
+        with(cursor) {
+            while (moveToNext()) {
+                detailDayData[0] = cursor.getString(0)
+                detailDayData[1] = cursor.getString(1)
+                detailDayData[2] = cursor.getString(2)
+                detailDayData[3] = cursor.getString(3)
+                detailDayImageData = cursor.getBlob(4)
+            }
+        }
+
         updateView()
+
+        for (i in detailDayData.indices) {
+            Log.d("TAG", detailDayData[i].toString())
+        }
 
         // 画像を表示
 //        val bitmap = BitmapFactory.decodeByteArray(model.detailDayImageData,0,model.detailDayImageData.size)
@@ -44,10 +81,10 @@ class DateFragment : Fragment(R.layout.fragment_date) {
 
     // 値を表示する関数
     private fun updateView() {
-        model.detailDayData[0]?.let { bodyWeightView.changeSizeOfText(it, "  kg", 14) }
-        model.detailDayData[1]?.let { bodyFatPercentageView.changeSizeOfText(it, "  %", 14) }
-        model.detailDayData[2]?.let { skeletalMusclePercentageView.changeSizeOfText(it, "  %", 14) }
-        model.detailDayData[3]?.let { basalMetabolicRateView.changeSizeOfText(it, "  kcal", 14) }
+        detailDayData[0]?.let { bodyWeightView.changeSizeOfText(it, "  kg", 14) }
+        detailDayData[1]?.let { bodyFatPercentageView.changeSizeOfText(it, "  %", 14) }
+        detailDayData[2]?.let { skeletalMusclePercentageView.changeSizeOfText(it, "  %", 14) }
+        detailDayData[3]?.let { basalMetabolicRateView.changeSizeOfText(it, "  kcal", 14) }
     }
 
     // TextViewの一部のスタイルを変更する関数

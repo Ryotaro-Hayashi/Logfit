@@ -106,6 +106,33 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     dataArray[i] = cursor.getFloat(0)
                 }
             }
+            if (dataArray[i].toString() == "null") {
+                dataArray[i] = 0.toFloat()
+                // データを取得するSQL文
+                val sqlAfter = "select bodyWeight from physicalRecord where createdAt >= ?  order by _id desc limit 1;"
+                val sqlBefore = "select bodyWeight from physicalRecord where createdAt <= ?  order by _id asc limit 1;"
+
+                // データを取得
+                val cursorAfter = db.rawQuery(sqlAfter, arrayOf(dateEnd))
+                val cursorBefore = db.rawQuery(sqlBefore, arrayOf(dateBegin))
+
+                var DataAfter: Float = 0F
+                var DataBefore: Float = 0F
+
+                with(cursorAfter) {
+                    while (moveToNext()) {
+                        DataAfter = cursorAfter.getFloat(0)
+                    }
+                }
+
+                with(cursorBefore) {
+                    while (moveToNext()) {
+                        DataBefore = cursorBefore.getFloat(0)
+                    }
+                }
+
+                dataArray[i] = (DataAfter + DataBefore) / 2
+            }
         }
 
         dataArray.reverse() // 配列を降順に変更

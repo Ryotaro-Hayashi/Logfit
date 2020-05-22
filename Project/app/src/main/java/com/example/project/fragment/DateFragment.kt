@@ -40,7 +40,7 @@ class DateFragment : Fragment(R.layout.fragment_date) {
             ViewModelProviders.of(this)[SharedViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
-        dateView.text = model.dateDetail
+        dateView.text = model.calendarDateFormatted
 
         val dbHelper = DBHelper(activity!!)
 

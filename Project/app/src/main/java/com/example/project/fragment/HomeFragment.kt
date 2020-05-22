@@ -241,6 +241,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         xAxis.valueFormatter = IndexAxisValueFormatter(dateFormatted)
         // x軸のラベルの位置設定
         xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+        xAxis.isGranularityEnabled = true
     }
 
 }

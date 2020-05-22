@@ -12,5 +12,5 @@ class SharedViewModel : ViewModel() {
     var  todayImageData: ByteArray = byteArrayOf()// 今日登録した画像データ
 
     // ホームでの日付表示用のフォーマット
-    val homeDateFormatter = DateTimeFormatter.ofPattern("M月d日")
+    val homeDateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("M月d日")
 }

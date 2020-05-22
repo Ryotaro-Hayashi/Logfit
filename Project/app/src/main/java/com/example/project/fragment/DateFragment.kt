@@ -70,13 +70,12 @@ class DateFragment : Fragment(R.layout.fragment_date) {
 
         updateView()
 
-        for (i in detailDayData.indices) {
-            Log.d("TAG", detailDayData[i].toString())
+        // 少なくとも1つ以上の要素がある時、画像をセット
+        if (detailDayImageData.any()) {
+            // bytearrayをbitmapに変換
+            val bitmap = BitmapFactory.decodeByteArray(detailDayImageData,0, detailDayImageData.size)
+            imageView.setImageBitmap(bitmap)
         }
-
-        // 画像を表示
-//        val bitmap = BitmapFactory.decodeByteArray(model.detailDayImageData,0,model.detailDayImageData.size)
-//        imageView.setImageBitmap(bitmap)
     }
 
     // 値を表示する関数

@@ -73,9 +73,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // 読み込み専用で接続
         val db = dbHelper.readableDatabase
 
-        var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
+        var dateArrayBeforeFormatted: ArrayList<LocalDateTime> = arrayListOf()
         // 日付データ
-        var dateFormatted: Array<String?> = arrayOfNulls(7)
+        var dateFormatted: ArrayList<String> = arrayListOf()
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
@@ -85,13 +85,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         for (i in dataArray.indices) {
             if (i == 0) {
                 // 今日の日付を格納
-                dateArrayBeforeFormatted[i] = LocalDateTime.now()
+                dateArrayBeforeFormatted.add(LocalDateTime.now())
             } else {
                 // index の分をマイナスした日付を格納
-                dateArrayBeforeFormatted[i] = LocalDateTime.now().minusDays(i.toLong())
+                dateArrayBeforeFormatted.add(LocalDateTime.now().minusDays(i.toLong()))
             }
             // フォーマットを変更
-            dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
+            dateFormatted.add(dateArrayBeforeFormatted[i].format(formatter))
 
             val dateBegin = dateFormatted[i].toString() + " 00:00:00"
             val dateEnd = dateFormatted[i].toString() + " 23:59:59"
@@ -216,19 +216,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // x軸を描画しない
         xBottom.setDrawAxisLine(false)
 
-        var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
+        var dateArrayBeforeFormatted: ArrayList<LocalDateTime> = arrayListOf()
         // x軸のラベル
-        var dateFormatted: Array<String?> = arrayOfNulls(7)
+        var dateFormatted: ArrayList<String> = arrayListOf()
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("M/d")
 
-        for (i in dateFormatted.indices) {
+        for (i in 0..6) {
             if (i == 0) {
-                dateArrayBeforeFormatted[i] = LocalDateTime.now()
+                dateArrayBeforeFormatted.add(LocalDateTime.now())
             } else {
-                dateArrayBeforeFormatted[i] = LocalDateTime.now().minusDays(i.toLong())
+                dateArrayBeforeFormatted.add(LocalDateTime.now().minusDays(i.toLong()))
             }
-            dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
+            dateFormatted.add(dateArrayBeforeFormatted[i].format(formatter))
+            Log.d("TAG", dateFormatted[i])
         }
 
         dateFormatted.reverse() // 配列を降順に変更

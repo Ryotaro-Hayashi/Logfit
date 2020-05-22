@@ -73,9 +73,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // 読み込み専用で接続
         val db = dbHelper.readableDatabase
 
-        var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
+        var dateArrayBeforeFormatted: ArrayList<LocalDateTime> = arrayListOf()
         // 日付データ
-        var dateFormatted: Array<String?> = arrayOfNulls(7)
+        var dateFormatted: ArrayList<String> = arrayListOf()
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
@@ -85,13 +85,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         for (i in dataArray.indices) {
             if (i == 0) {
                 // 今日の日付を格納
-                dateArrayBeforeFormatted[i] = LocalDateTime.now()
+                dateArrayBeforeFormatted.add(LocalDateTime.now())
             } else {
                 // index の分をマイナスした日付を格納
-                dateArrayBeforeFormatted[i] = LocalDateTime.now().minusDays(i.toLong())
+                dateArrayBeforeFormatted.add(LocalDateTime.now().minusDays(i.toLong()))
             }
             // フォーマットを変更
-            dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
+            dateFormatted.add(dateArrayBeforeFormatted[i].format(formatter))
 
             val dateBegin = dateFormatted[i].toString() + " 00:00:00"
             val dateEnd = dateFormatted[i].toString() + " 23:59:59"
@@ -106,11 +106,39 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     dataArray[i] = cursor.getFloat(0)
                 }
             }
+            if (dataArray[i].toString() == "null") {
+//                dataArray[i] = 0.toFloat()
+//                // データを取得するSQL文
+//                val sqlAfter = "select bodyWeight from physicalRecord where createdAt >= ?  order by _id desc limit 1;"
+//                val sqlBefore = "select bodyWeight from physicalRecord where createdAt <= ?  order by _id asc limit 1;"
+//
+//                // データを取得
+//                val cursorAfter = db.rawQuery(sqlAfter, arrayOf(dateEnd))
+//                val cursorBefore = db.rawQuery(sqlBefore, arrayOf(dateBegin))
+//
+//                var DataAfter: Float = 0F
+//                var DataBefore: Float = 0F
+//
+//                with(cursorAfter) {
+//                    while (moveToNext()) {
+//                        DataAfter = cursorAfter.getFloat(0)
+//                    }
+//                }
+//
+//                with(cursorBefore) {
+//                    while (moveToNext()) {
+//                        DataBefore = cursorBefore.getFloat(0)
+//                    }
+//                }
+//
+//                dataArray[i] = (DataAfter + DataBefore) / 2
+            }
         }
 
         dataArray.reverse() // 配列を降順に変更
 
         for (i in dataArray.indices) { // グラフにデータをプロット
+            Log.d("TAG", dataArray[i].toString())
             dataArray[i]?.let { Entry(i.toFloat(), it) }?.let { values.add(it) }
         }
 
@@ -189,19 +217,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // x軸を描画しない
         xBottom.setDrawAxisLine(false)
 
-        var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
+        var dateArrayBeforeFormatted: ArrayList<LocalDateTime> = arrayListOf()
         // x軸のラベル
-        var dateFormatted: Array<String?> = arrayOfNulls(7)
+        var dateFormatted: ArrayList<String> = arrayListOf()
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("M/d")
 
-        for (i in dateFormatted.indices) {
+        for (i in 0..6) {
             if (i == 0) {
-                dateArrayBeforeFormatted[i] = LocalDateTime.now()
+                dateArrayBeforeFormatted.add(LocalDateTime.now())
             } else {
-                dateArrayBeforeFormatted[i] = LocalDateTime.now().minusDays(i.toLong())
+                dateArrayBeforeFormatted.add(LocalDateTime.now().minusDays(i.toLong()))
             }
-            dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
+            dateFormatted.add(dateArrayBeforeFormatted[i].format(formatter))
+            Log.d("TAG", dateFormatted[i])
         }
 
         dateFormatted.reverse() // 配列を降順に変更
@@ -212,6 +241,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         xAxis.valueFormatter = IndexAxisValueFormatter(dateFormatted)
         // x軸のラベルの位置設定
         xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+        xAxis.isGranularityEnabled = true
     }
 
 }

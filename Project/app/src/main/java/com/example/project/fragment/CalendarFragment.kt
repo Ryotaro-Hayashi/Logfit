@@ -13,6 +13,7 @@ import com.example.project.viewmodel.SharedViewModel
 import com.example.project.R
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import java.text.SimpleDateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -39,10 +40,13 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
         // フォーマット
         val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+        // 詳細表示ページでの日付表示用のフォーマット
+        val calendarDateFormatter = SimpleDateFormat("Y年M月d日", Locale.US)
 
         // 初期選択日を取得
         val defaultDate = calendarView.date
         model.dateDetail = formatter.format(defaultDate)
+        model.calendarDateFormatted = calendarDateFormatter.format(defaultDate)
 
         // 日付変更イベントを追加
         calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->

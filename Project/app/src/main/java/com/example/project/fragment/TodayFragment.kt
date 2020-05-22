@@ -55,12 +55,14 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         // 現在時刻のフォーマットを指定
         val formatted = current.format(formatter)
+        // 画面表示用の日付
+        val dateFormatted = current.format(model.homeDateFormatter)
 
         //今日の日付
         var dateToday = formatted
 
         // 今日の日付を表示
-        dateView.text = formatted
+        dateView.text = dateFormatted
 
         // データベースのクラスをインスタンス化
         val dbHelper = DBHelper(activity!!)

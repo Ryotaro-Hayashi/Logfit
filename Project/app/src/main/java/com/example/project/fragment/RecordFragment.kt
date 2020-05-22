@@ -80,9 +80,12 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
         skeletalMusclePercentageForm.setText(model.todayData[2])
         basalMetabolicRateForm.setText(model.todayData[3])
 
-        // bytearrayをbitmapに変換
-//        val bitmap = BitmapFactory.decodeByteArray(model.todayImageData,0,model.todayImageData.size)
-//        imageView.setImageBitmap(bitmap)
+        // 少なくとも1つ以上の要素がある時、画像をセット
+        if (model.todayImageData.any()) {
+            // bytearrayをbitmapに変換
+            val bitmap = BitmapFactory.decodeByteArray(model.todayImageData,0,model.todayImageData.size)
+            imageView.setImageBitmap(bitmap)
+        }
 
         // 登録ボタン
         val registerButton = view.findViewById<Button>(R.id.registerButton)

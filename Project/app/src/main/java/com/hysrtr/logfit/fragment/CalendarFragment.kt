@@ -1,19 +1,14 @@
-package com.example.project.fragment
+package com.hysrtr.logfit.fragment
 
 import android.os.Bundle
-import android.provider.BaseColumns
 import android.view.View
 import android.widget.CalendarView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.example.project.DBHelper
-import com.example.project.PhysicalRecordContract
-import com.example.project.viewmodel.SharedViewModel
-import com.example.project.R
-import kotlinx.android.synthetic.main.fragment_calendar.*
+import com.hysrtr.logfit.viewmodel.SharedViewModel
+import com.hysrtr.logfit.R
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 

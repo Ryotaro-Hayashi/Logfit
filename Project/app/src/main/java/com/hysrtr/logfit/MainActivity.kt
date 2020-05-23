@@ -1,4 +1,4 @@
-package com.example.project
+package com.hysrtr.logfit
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView

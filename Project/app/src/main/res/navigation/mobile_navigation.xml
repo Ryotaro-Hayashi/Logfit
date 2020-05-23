@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.project.fragment.HomeFragment"
+        android:name="com.hysrtr.logfit.fragment.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_record"
-        android:name="com.example.project.fragment.RecordFragment"
+        android:name="com.hysrtr.logfit.fragment.RecordFragment"
         android:label="@string/title_record"
         tools:layout="@layout/fragment_record" >
         <action
@@ -28,7 +28,7 @@
 
     <fragment
         android:id="@+id/navigation_calendar"
-        android:name="com.example.project.fragment.CalendarFragment"
+        android:name="com.hysrtr.logfit.fragment.CalendarFragment"
         android:label="@string/title_calendar"
         tools:layout="@layout/fragment_calendar" >
         <action
@@ -41,7 +41,7 @@
         app:startDestination="@id/navigation_date">
         <fragment
             android:id="@+id/navigation_date"
-            android:name="com.example.project.fragment.DateFragment"
+            android:name="com.hysrtr.logfit.fragment.DateFragment"
             android:label="@string/title_date" />
     </navigation>
 </navigation>

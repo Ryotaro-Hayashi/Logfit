@@ -1,4 +1,4 @@
-package com.example.project.fragment
+package com.hysrtr.logfit.fragment
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -7,9 +7,9 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.project.DBHelper
-import com.example.project.PagerAdapter
-import com.example.project.viewmodel.SharedViewModel
+import com.hysrtr.logfit.DBHelper
+import com.hysrtr.logfit.PagerAdapter
+import com.hysrtr.logfit.viewmodel.SharedViewModel
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -17,7 +17,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.android.synthetic.main.fragment_home.*
-import com.example.project.R
+import com.hysrtr.logfit.R
 import com.github.mikephil.charting.components.XAxis
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

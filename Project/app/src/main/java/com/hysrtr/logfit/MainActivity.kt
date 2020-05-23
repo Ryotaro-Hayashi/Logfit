@@ -14,6 +14,9 @@ class MainActivity : AppCompatActivity() {
     // override で AppCompatActivity()クラス の onCreateメソッドを上書き
     // Bundle は、状態を保存・復元するためのクラス
     override fun onCreate(savedInstanceState: Bundle?) { // 状態の保存
+        // スプラッシュ画面からアプリのテーマへ再セット
+        setTheme(R.style.AppTheme)
+
         // super は、スーパークラスの MainActivity
         super.onCreate(savedInstanceState)
 

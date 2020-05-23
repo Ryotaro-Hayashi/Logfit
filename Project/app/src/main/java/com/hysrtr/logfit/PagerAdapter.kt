@@ -1,4 +1,4 @@
-package com.example.project
+package com.hysrtr.logfit
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

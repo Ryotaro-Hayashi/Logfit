@@ -1,9 +1,8 @@
-package com.example.project.fragment
+package com.hysrtr.logfit.fragment
 
 import android.graphics.Color
 import android.graphics.Typeface.BOLD
 import android.os.Bundle
-import android.provider.BaseColumns
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
@@ -13,10 +12,9 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.project.DBHelper
-import com.example.project.PhysicalRecordContract
-import com.example.project.R
-import com.example.project.viewmodel.SharedViewModel
+import com.hysrtr.logfit.DBHelper
+import com.hysrtr.logfit.R
+import com.hysrtr.logfit.viewmodel.SharedViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

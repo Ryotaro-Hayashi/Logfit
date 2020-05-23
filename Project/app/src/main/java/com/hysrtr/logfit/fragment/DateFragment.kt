@@ -1,4 +1,4 @@
-package com.example.project.fragment
+package com.hysrtr.logfit.fragment
 
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -10,15 +10,14 @@ import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.project.DBHelper
-import com.example.project.PhysicalRecordContract
-import com.example.project.R
-import com.example.project.viewmodel.SharedViewModel
+import com.hysrtr.logfit.DBHelper
+import com.hysrtr.logfit.PhysicalRecordContract
+import com.hysrtr.logfit.R
+import com.hysrtr.logfit.viewmodel.SharedViewModel
 import kotlinx.android.synthetic.main.fragment_date.*
 
 // Fragment クラスを継承

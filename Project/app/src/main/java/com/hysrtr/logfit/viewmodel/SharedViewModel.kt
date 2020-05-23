@@ -1,4 +1,4 @@
-package com.example.project.viewmodel
+package com.hysrtr.logfit.viewmodel
 
 import androidx.lifecycle.ViewModel
 import java.time.format.DateTimeFormatter

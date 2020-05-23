@@ -1,16 +1,13 @@
-package com.example.project.fragment
+package com.hysrtr.logfit.fragment
 
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
-import android.provider.BaseColumns
-import android.text.Editable
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -18,14 +15,12 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.example.project.DBHelper
-import com.example.project.PhysicalRecordContract
-import com.example.project.viewmodel.SharedViewModel
-import com.example.project.R
+import com.hysrtr.logfit.DBHelper
+import com.hysrtr.logfit.PhysicalRecordContract
+import com.hysrtr.logfit.viewmodel.SharedViewModel
+import com.hysrtr.logfit.R
 import java.io.ByteArrayOutputStream
 import java.io.FileDescriptor
-import android.util.Log
-import kotlinx.android.synthetic.main.fragment_date.*
 
 
 // Fragment クラスを継承

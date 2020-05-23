@@ -1,4 +1,4 @@
-package com.example.project
+package com.hysrtr.logfit
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase

@@ -29,7 +29,7 @@ class DateFragment : Fragment(R.layout.fragment_date) {
     private lateinit var dateView: TextView
 
     private var detailDayData: Array<String?> = arrayOf("", "", "", "") // 詳細表示する日の登録データ
-    private lateinit var  detailDayImageData: ByteArray // 詳細表示する日に登録した画像データ
+    private var  detailDayImageData: ByteArray = byteArrayOf() // 詳細表示する日に登録した画像データ
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

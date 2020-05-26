@@ -56,7 +56,7 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
         // 現在時刻のフォーマットを指定
         val formatted = yesterday.format(formatter)
         // 画面表示用の日付
-        val dateFormatted = current.format(model.homeDateFormatter)
+        val dateFormatted = yesterday.format(model.homeDateFormatter)
 
         // 昨日の日付
         var dateYesterday = formatted

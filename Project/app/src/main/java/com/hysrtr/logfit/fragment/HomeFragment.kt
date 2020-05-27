@@ -59,6 +59,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         /// adapterをセット
         viewPager.adapter = adapter
 
+        // 180度回転させて左にスワイプできるようにする
         viewPager.setRotationY(180F);
     }
 
@@ -93,8 +94,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             // フォーマットを変更
             dateFormatted.add(dateArrayBeforeFormatted[i].format(formatter))
 
-            val dateBegin = dateFormatted[i].toString() + " 00:00:00"
-            val dateEnd = dateFormatted[i].toString() + " 23:59:59"
+            val dateBegin = dateFormatted[i] + " 00:00:00"
+            val dateEnd = dateFormatted[i] + " 23:59:59"
 
             // データを取得するSQL文
             val sql = "select bodyWeight from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
@@ -106,39 +107,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     dataArray[i] = cursor.getFloat(0)
                 }
             }
-            if (dataArray[i].toString() == "null") {
-//                dataArray[i] = 0.toFloat()
-//                // データを取得するSQL文
-//                val sqlAfter = "select bodyWeight from physicalRecord where createdAt >= ?  order by _id desc limit 1;"
-//                val sqlBefore = "select bodyWeight from physicalRecord where createdAt <= ?  order by _id asc limit 1;"
-//
-//                // データを取得
-//                val cursorAfter = db.rawQuery(sqlAfter, arrayOf(dateEnd))
-//                val cursorBefore = db.rawQuery(sqlBefore, arrayOf(dateBegin))
-//
-//                var DataAfter: Float = 0F
-//                var DataBefore: Float = 0F
-//
-//                with(cursorAfter) {
-//                    while (moveToNext()) {
-//                        DataAfter = cursorAfter.getFloat(0)
-//                    }
-//                }
-//
-//                with(cursorBefore) {
-//                    while (moveToNext()) {
-//                        DataBefore = cursorBefore.getFloat(0)
-//                    }
-//                }
-//
-//                dataArray[i] = (DataAfter + DataBefore) / 2
-            }
         }
 
         dataArray.reverse() // 配列を降順に変更
 
         for (i in dataArray.indices) { // グラフにデータをプロット
-            Log.d("TAG", dataArray[i].toString())
             dataArray[i]?.let { Entry(i.toFloat(), it) }?.let { values.add(it) }
         }
 

@@ -53,41 +53,19 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
         val yesterday = current.minusDays(1)
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        // 現在時刻のフォーマットを指定
+        // フォーマットを指定
         val formatted = yesterday.format(formatter)
         // 画面表示用の日付
-        val dateFormatted = current.format(model.homeDateFormatter)
+        val dateFormatted = yesterday.format(model.homeDateFormatter)
 
         // 昨日の日付
         var dateYesterday = formatted
 
-        // 今日の日付を表示
+        // 昨日の日付を表示
         dateView.text = dateFormatted
 
-        // データベースのクラスをインスタンス化
-        val dbHelper = DBHelper(activity!!)
-
-        // 読み込み専用で接続
-        val db = dbHelper.readableDatabase
-
-        // 今日の始まり
-        val dateBegin = dateYesterday + " 00:00:00"
-        // 今日の終わり
-        val dateEnd = dateYesterday + " 23:59:59"
-
-        // 今日のデータを取得するSQL文
-        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
-        // データを取得
-        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
-
-        with(cursor) {
-            while (moveToNext()) {
-                yesterdayData[0] = cursor.getString(0)
-                yesterdayData[1] = cursor.getString(1)
-                yesterdayData[2] = cursor.getString(2)
-                yesterdayData[3] = cursor.getString(3)
-            }
-        }
+        // 昨日の登録データを取得
+        getYesterdayData(dateYesterday)
 
         // viewmodelの値をtextViewに格納
         updateView()
@@ -102,7 +80,7 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
     }
 
     // TextViewの一部のスタイルを変更する関数
-    fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
+    private fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
 
         if (number.isEmpty()) {
             text = "未入力"
@@ -135,6 +113,33 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
             )
             // TextViewにSpannableStringBuilderをセット
             text = spannable
+        }
+    }
+
+    private fun getYesterdayData(dateYesterday: String) {
+        // データベースのクラスをインスタンス化
+        val dbHelper = DBHelper(activity!!)
+
+        // 読み込み専用で接続
+        val db = dbHelper.readableDatabase
+
+        // 今日の始まり
+        val dateBegin = dateYesterday + " 00:00:00"
+        // 今日の終わり
+        val dateEnd = dateYesterday + " 23:59:59"
+
+        // 今日のデータを取得するSQL文
+        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+        // データを取得
+        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
+
+        with(cursor) {
+            while (moveToNext()) {
+                yesterdayData[0] = cursor.getString(0)
+                yesterdayData[1] = cursor.getString(1)
+                yesterdayData[2] = cursor.getString(2)
+                yesterdayData[3] = cursor.getString(3)
+            }
         }
     }
 }

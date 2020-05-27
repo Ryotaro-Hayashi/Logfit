@@ -56,37 +56,14 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         // 画面表示用の日付
         val dateFormatted = current.format(model.homeDateFormatter)
 
-        //今日の日付
+        // 今日の日付
         var dateToday = formatted
 
         // 今日の日付を表示
         dateView.text = dateFormatted
 
-        // データベースのクラスをインスタンス化
-        val dbHelper = DBHelper(activity!!)
-
-        // 読み込み専用で接続
-        val db = dbHelper.readableDatabase
-
-        // 今日の始まり
-        val dateBegin = dateToday + " 00:00:00"
-        // 今日の終わり
-        val dateEnd = dateToday + " 23:59:59"
-
-        // 今日のデータを取得するSQL文
-        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
-        // データを取得
-        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
-
-        with(cursor) {
-            while (moveToNext()) {
-                model.todayData[0] = cursor.getString(0)
-                model.todayData[1] = cursor.getString(1)
-                model.todayData[2] = cursor.getString(2)
-                model.todayData[3] = cursor.getString(3)
-                model.todayImageData = cursor.getBlob(4)
-            }
-        }
+        // 今日の登録データを取得
+        getTodayData(dateToday)
 
         // viewmodelの値をtextViewに格納
         updateView()
@@ -101,7 +78,7 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
     }
 
     // TextViewの一部のスタイルを変更する関数
-    fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
+    private fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
 
         if (number.isEmpty()) {
             text = "未入力"
@@ -134,6 +111,34 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
             )
             // TextViewにSpannableStringBuilderをセット
             text = spannable
+        }
+    }
+
+    private fun getTodayData(dateToday: String) {
+        // データベースのクラスをインスタンス化
+        val dbHelper = DBHelper(activity!!)
+
+        // 読み込み専用で接続
+        val db = dbHelper.readableDatabase
+
+        // 今日の始まり
+        val dateBegin = dateToday + " 00:00:00"
+        // 今日の終わり
+        val dateEnd = dateToday + " 23:59:59"
+
+        // 今日のデータを取得するSQL文
+        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+        // データを取得
+        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
+
+        with(cursor) {
+            while (moveToNext()) {
+                model.todayData[0] = cursor.getString(0)
+                model.todayData[1] = cursor.getString(1)
+                model.todayData[2] = cursor.getString(2)
+                model.todayData[3] = cursor.getString(3)
+                model.todayImageData = cursor.getBlob(4)
+            }
         }
     }
 

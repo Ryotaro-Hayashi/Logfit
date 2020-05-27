@@ -70,18 +70,6 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             startActivityForResult(Intent.createChooser(intent, "写真を選択"), CHOOSE_PHOTO)
         }
 
-        bodyWeightForm.setText(model.todayData[0])
-        bodyFatPercentageForm.setText(model.todayData[1])
-        skeletalMusclePercentageForm.setText(model.todayData[2])
-        basalMetabolicRateForm.setText(model.todayData[3])
-
-        // 少なくとも1つ以上の要素がある時、画像をセット
-        if (model.todayImageData.any()) {
-            // bytearrayをbitmapに変換
-            val bitmap = BitmapFactory.decodeByteArray(model.todayImageData,0,model.todayImageData.size)
-            imageView.setImageBitmap(bitmap)
-        }
-
         // 登録ボタン
         val registerButton = view.findViewById<Button>(R.id.registerButton)
 
@@ -109,6 +97,24 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             // テーブルに書き込み
             physicalRecordId = db.insert(PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME, null, values)
             db.close()
+        }
+
+        // 値をセット
+        setView()
+    }
+
+    // 値を表示する関数
+    private fun setView() {
+        bodyWeightForm.setText(model.todayData[0])
+        bodyFatPercentageForm.setText(model.todayData[1])
+        skeletalMusclePercentageForm.setText(model.todayData[2])
+        basalMetabolicRateForm.setText(model.todayData[3])
+
+        // 少なくとも1つ以上の要素がある時、画像をセット
+        if (model.todayImageData.any()) {
+            // bytearrayをbitmapに変換
+            val bitmap = BitmapFactory.decodeByteArray(model.todayImageData,0,model.todayImageData.size)
+            imageView.setImageBitmap(bitmap)
         }
     }
 

@@ -1,9 +1,8 @@
-package com.example.project.fragment
+package com.hysrtr.logfit.fragment
 
 import android.graphics.Color
-import android.graphics.Typeface.BOLD
+import android.graphics.Typeface
 import android.os.Bundle
-import android.provider.BaseColumns
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.AbsoluteSizeSpan
@@ -13,15 +12,13 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.project.DBHelper
-import com.example.project.PhysicalRecordContract
-import com.example.project.R
-import com.example.project.viewmodel.SharedViewModel
+import com.hysrtr.logfit.DBHelper
+import com.hysrtr.logfit.R
+import com.hysrtr.logfit.viewmodel.SharedViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class TodayFragment : Fragment(R.layout.fragment_today) {
-
+class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
     private lateinit var model: SharedViewModel
 
     // Homeで表示するTextViewを初期化
@@ -30,6 +27,8 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
     private lateinit var skeletalMusclePercentageView: TextView
     private lateinit var basalMetabolicRateView: TextView
     private lateinit var dateView: TextView
+
+    private var yesterdayData: Array<String?> = arrayOf("", "", "", "") // 昨日の登録データ
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,62 +50,40 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
 
         // 現在時刻を取得
         val current = LocalDateTime.now()
+        val yesterday = current.minusDays(1)
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        // 現在時刻のフォーマットを指定
-        val formatted = current.format(formatter)
+        // フォーマットを指定
+        val formatted = yesterday.format(formatter)
+        // 画面表示用の日付
+        val dateFormatted = yesterday.format(model.homeDateFormatter)
 
-        //今日の日付
-        model.dateToday = formatted
+        // 昨日の日付
+        var dateYesterday = formatted
 
-        // 今日の日付を表示
-        dateView.text = formatted
+        // 昨日の日付を表示
+        dateView.text = dateFormatted
+
+        // 昨日の登録データを取得
+        getYesterdayData(dateYesterday)
 
         // viewmodelの値をtextViewに格納
         updateView()
-
-        // データベースのクラスをインスタンス化
-        val dbHelper = DBHelper(activity!!)
-
-        // 読み込み専用で接続
-        val db = dbHelper.readableDatabase
-
-        // 今日の始まり
-        val dateBegin = model.dateToday + " 00:00:00"
-        // 今日の終わり
-        val dateEnd = model.dateToday + " 23:59:59"
-
-        // 今日のデータを取得するSQL文
-        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
-        // データを取得
-        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
-
-        with(cursor) {
-            while (moveToNext()) {
-                model.bodyWeight = cursor.getString(0)
-                model.bodyFatPercentage = cursor.getString(1)
-                model.skeletalMusclePercentage = cursor.getString(2)
-                model.basalMetabolicRate = cursor.getString(3)
-                model.imageData = cursor.getBlob(4)
-            }
-        }
     }
 
     // 値を表示する関数
     private fun updateView() {
-        bodyWeightView.changeSizeOfText(model.bodyWeight.toString(), "  kg", 14)
-        bodyFatPercentageView.changeSizeOfText(model.bodyFatPercentage.toString(), "  %", 14)
-        skeletalMusclePercentageView.changeSizeOfText(model.skeletalMusclePercentage.toString(), "  %", 14)
-        basalMetabolicRateView.changeSizeOfText(model.basalMetabolicRate, "  kcal", 14)
+        yesterdayData[0]?.let { bodyWeightView.changeSizeOfText(it, "  kg", 14) }
+        yesterdayData[1]?.let { bodyFatPercentageView.changeSizeOfText(it, "  %", 14) }
+        yesterdayData[2]?.let { skeletalMusclePercentageView.changeSizeOfText(it, "  %", 14) }
+        yesterdayData[3]?.let { basalMetabolicRateView.changeSizeOfText(it, "  kcal", 14) }
     }
 
     // TextViewの一部のスタイルを変更する関数
-    fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
+    private fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
 
         if (number.isEmpty()) {
-            val message = "未入力"
-
-            text = message
+            text = "未入力"
             textSize = 14F
 
         } else {
@@ -124,12 +101,12 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
             spannable.setSpan(
                 ForegroundColorSpan(Color.parseColor("#FF8C00")),
                 0, // start
-                unit.length, // end
+                number.length, // end
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             // 数値をboldにする
             spannable.setSpan(
-                StyleSpan(BOLD),
+                StyleSpan(Typeface.BOLD),
                 0, // start
                 number.length, // end
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -139,4 +116,30 @@ class TodayFragment : Fragment(R.layout.fragment_today) {
         }
     }
 
+    private fun getYesterdayData(dateYesterday: String) {
+        // データベースのクラスをインスタンス化
+        val dbHelper = DBHelper(activity!!)
+
+        // 読み込み専用で接続
+        val db = dbHelper.readableDatabase
+
+        // 今日の始まり
+        val dateBegin = dateYesterday + " 00:00:00"
+        // 今日の終わり
+        val dateEnd = dateYesterday + " 23:59:59"
+
+        // 今日のデータを取得するSQL文
+        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+        // データを取得
+        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
+
+        with(cursor) {
+            while (moveToNext()) {
+                yesterdayData[0] = cursor.getString(0)
+                yesterdayData[1] = cursor.getString(1)
+                yesterdayData[2] = cursor.getString(2)
+                yesterdayData[3] = cursor.getString(3)
+            }
+        }
+    }
 }

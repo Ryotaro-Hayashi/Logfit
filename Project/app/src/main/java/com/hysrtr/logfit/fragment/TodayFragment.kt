@@ -1,7 +1,7 @@
-package com.example.project.fragment
+package com.hysrtr.logfit.fragment
 
 import android.graphics.Color
-import android.graphics.Typeface
+import android.graphics.Typeface.BOLD
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -12,13 +12,14 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.project.DBHelper
-import com.example.project.R
-import com.example.project.viewmodel.SharedViewModel
+import com.hysrtr.logfit.DBHelper
+import com.hysrtr.logfit.R
+import com.hysrtr.logfit.viewmodel.SharedViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
+class TodayFragment : Fragment(R.layout.fragment_today) {
+
     private lateinit var model: SharedViewModel
 
     // Homeで表示するTextViewを初期化
@@ -48,62 +49,39 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
 
         // 現在時刻を取得
         val current = LocalDateTime.now()
-        val yesterday = current.minusDays(1)
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         // 現在時刻のフォーマットを指定
-        val formatted = yesterday.format(formatter)
+        val formatted = current.format(formatter)
+        // 画面表示用の日付
+        val dateFormatted = current.format(model.homeDateFormatter)
 
-        //今日の日付
-        model.dateYesterday = formatted
+        // 今日の日付
+        var dateToday = formatted
 
         // 今日の日付を表示
-        dateView.text = formatted
+        dateView.text = dateFormatted
+
+        // 今日の登録データを取得
+        getTodayData(dateToday)
 
         // viewmodelの値をtextViewに格納
         updateView()
-
-        // データベースのクラスをインスタンス化
-        val dbHelper = DBHelper(activity!!)
-
-        // 読み込み専用で接続
-        val db = dbHelper.readableDatabase
-
-        // 今日の始まり
-        val dateBegin = model.dateYesterday + " 00:00:00"
-        // 今日の終わり
-        val dateEnd = model.dateYesterday + " 23:59:59"
-
-        // 今日のデータを取得するSQL文
-        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
-        // データを取得
-        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
-
-        with(cursor) {
-            while (moveToNext()) {
-                model.yesterdayBodyWeight = cursor.getString(0)
-                model.yesterdayBodyFatPercentage = cursor.getString(1)
-                model.yesterdaySkeletalMusclePercentage = cursor.getString(2)
-                model.yesterdayBasalMetabolicRate = cursor.getString(3)
-            }
-        }
     }
 
     // 値を表示する関数
     private fun updateView() {
-        bodyWeightView.changeSizeOfText(model.yesterdayBodyWeight.toString(), "  kg", 14)
-        bodyFatPercentageView.changeSizeOfText(model.yesterdayBodyFatPercentage.toString(), "  %", 14)
-        skeletalMusclePercentageView.changeSizeOfText(model.yesterdaySkeletalMusclePercentage.toString(), "  %", 14)
-        basalMetabolicRateView.changeSizeOfText(model.yesterdayBasalMetabolicRate, "  kcal", 14)
+        model.todayData[0]?.let { bodyWeightView.changeSizeOfText(it, "  kg", 14) }
+        model.todayData[1]?.let { bodyFatPercentageView.changeSizeOfText(it, "  %", 14) }
+        model.todayData[2]?.let { skeletalMusclePercentageView.changeSizeOfText(it, "  %", 14) }
+        model.todayData[3]?.let { basalMetabolicRateView.changeSizeOfText(it, "  kcal", 14) }
     }
 
     // TextViewの一部のスタイルを変更する関数
-    fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
+    private fun TextView.changeSizeOfText(number: String, unit: String, size: Int){
 
         if (number.isEmpty()) {
-            val message = "未入力"
-
-            text = message
+            text = "未入力"
             textSize = 14F
 
         } else {
@@ -121,12 +99,12 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
             spannable.setSpan(
                 ForegroundColorSpan(Color.parseColor("#FF8C00")),
                 0, // start
-                unit.length, // end
+                number.length, // end
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             // 数値をboldにする
             spannable.setSpan(
-                StyleSpan(Typeface.BOLD),
+                StyleSpan(BOLD),
                 0, // start
                 number.length, // end
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -135,4 +113,33 @@ class YesterdayFragment : Fragment(R.layout.fragment_yesterday) {
             text = spannable
         }
     }
+
+    private fun getTodayData(dateToday: String) {
+        // データベースのクラスをインスタンス化
+        val dbHelper = DBHelper(activity!!)
+
+        // 読み込み専用で接続
+        val db = dbHelper.readableDatabase
+
+        // 今日の始まり
+        val dateBegin = dateToday + " 00:00:00"
+        // 今日の終わり
+        val dateEnd = dateToday + " 23:59:59"
+
+        // 今日のデータを取得するSQL文
+        val sql = "select bodyWeight, bodyFatPercentage, skeletalMusclePercentage, basalMetabolicRate, bitmap from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
+        // データを取得
+        val cursor = db.rawQuery(sql, arrayOf(dateEnd, dateBegin))
+
+        with(cursor) {
+            while (moveToNext()) {
+                model.todayData[0] = cursor.getString(0)
+                model.todayData[1] = cursor.getString(1)
+                model.todayData[2] = cursor.getString(2)
+                model.todayData[3] = cursor.getString(3)
+                model.todayImageData = cursor.getBlob(4)
+            }
+        }
+    }
+
 }

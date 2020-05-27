@@ -1,4 +1,4 @@
-package com.example.project.fragment
+package com.hysrtr.logfit.fragment
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -7,9 +7,9 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.project.DBHelper
-import com.example.project.PagerAdapter
-import com.example.project.viewmodel.SharedViewModel
+import com.hysrtr.logfit.DBHelper
+import com.hysrtr.logfit.PagerAdapter
+import com.hysrtr.logfit.viewmodel.SharedViewModel
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -17,7 +17,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import kotlinx.android.synthetic.main.fragment_home.*
-import com.example.project.R
+import com.hysrtr.logfit.R
 import com.github.mikephil.charting.components.XAxis
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -59,6 +59,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         /// adapterをセット
         viewPager.adapter = adapter
 
+        // 180度回転させて左にスワイプできるようにする
         viewPager.setRotationY(180F);
     }
 
@@ -73,9 +74,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // 読み込み専用で接続
         val db = dbHelper.readableDatabase
 
-        var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
+        var dateArrayBeforeFormatted: ArrayList<LocalDateTime> = arrayListOf()
         // 日付データ
-        var dateFormatted: Array<String?> = arrayOfNulls(7)
+        var dateFormatted: ArrayList<String> = arrayListOf()
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
@@ -85,16 +86,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         for (i in dataArray.indices) {
             if (i == 0) {
                 // 今日の日付を格納
-                dateArrayBeforeFormatted[i] = LocalDateTime.now()
+                dateArrayBeforeFormatted.add(LocalDateTime.now())
             } else {
                 // index の分をマイナスした日付を格納
-                dateArrayBeforeFormatted[i] = LocalDateTime.now().minusDays(i.toLong())
+                dateArrayBeforeFormatted.add(LocalDateTime.now().minusDays(i.toLong()))
             }
             // フォーマットを変更
-            dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
+            dateFormatted.add(dateArrayBeforeFormatted[i].format(formatter))
 
-            val dateBegin = dateFormatted[i].toString() + " 00:00:00"
-            val dateEnd = dateFormatted[i].toString() + " 23:59:59"
+            val dateBegin = dateFormatted[i] + " 00:00:00"
+            val dateEnd = dateFormatted[i] + " 23:59:59"
 
             // データを取得するSQL文
             val sql = "select bodyWeight from physicalRecord where createdAt <= ? and createdAt >= ?  order by _id desc limit 1;"
@@ -189,19 +190,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // x軸を描画しない
         xBottom.setDrawAxisLine(false)
 
-        var dateArrayBeforeFormatted: Array<LocalDateTime?> = arrayOfNulls(7)
+        var dateArrayBeforeFormatted: ArrayList<LocalDateTime> = arrayListOf()
         // x軸のラベル
-        var dateFormatted: Array<String?> = arrayOfNulls(7)
+        var dateFormatted: ArrayList<String> = arrayListOf()
         // フォーマットを指定
         val formatter = DateTimeFormatter.ofPattern("M/d")
 
-        for (i in dateFormatted.indices) {
+        for (i in 0..6) {
             if (i == 0) {
-                dateArrayBeforeFormatted[i] = LocalDateTime.now()
+                dateArrayBeforeFormatted.add(LocalDateTime.now())
             } else {
-                dateArrayBeforeFormatted[i] = LocalDateTime.now().minusDays(i.toLong())
+                dateArrayBeforeFormatted.add(LocalDateTime.now().minusDays(i.toLong()))
             }
-            dateFormatted[i] = dateArrayBeforeFormatted[i]?.format(formatter)
+            dateFormatted.add(dateArrayBeforeFormatted[i].format(formatter))
+            Log.d("TAG", dateFormatted[i])
         }
 
         dateFormatted.reverse() // 配列を降順に変更
@@ -209,9 +211,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         // 描画したグラフのx軸を取得
         val xAxis = lineChart.xAxis
         // x軸のラベルを設定
-        xAxis.setValueFormatter(IndexAxisValueFormatter(dateFormatted))
+        xAxis.valueFormatter = IndexAxisValueFormatter(dateFormatted)
         // x軸のラベルの位置設定
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+        xAxis.isGranularityEnabled = true
     }
 
 }

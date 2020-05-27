@@ -1,16 +1,13 @@
-package com.example.project.fragment
+package com.hysrtr.logfit.fragment
 
 import android.app.Activity.RESULT_OK
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.ParcelFileDescriptor
-import android.provider.BaseColumns
-import android.text.Editable
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -18,14 +15,12 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.example.project.DBHelper
-import com.example.project.PhysicalRecordContract
-import com.example.project.viewmodel.SharedViewModel
-import com.example.project.R
+import com.hysrtr.logfit.DBHelper
+import com.hysrtr.logfit.PhysicalRecordContract
+import com.hysrtr.logfit.viewmodel.SharedViewModel
+import com.hysrtr.logfit.R
 import java.io.ByteArrayOutputStream
 import java.io.FileDescriptor
-import android.util.Log
-import kotlinx.android.synthetic.main.fragment_date.*
 
 
 // Fragment クラスを継承
@@ -75,14 +70,6 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             startActivityForResult(Intent.createChooser(intent, "写真を選択"), CHOOSE_PHOTO)
         }
 
-        bodyWeightForm.setText(model.bodyWeight)
-        bodyFatPercentageForm.setText(model.bodyFatPercentage)
-        skeletalMusclePercentageForm.setText(model.skeletalMusclePercentage)
-        basalMetabolicRateForm.setText(model.basalMetabolicRate)
-            // bytearrayをbitmapに変換
-//            val bitmap = BitmapFactory.decodeByteArray(model.imageData,0,model.imageData.size)
-//            imageView.setImageBitmap(bitmap)
-
         // 登録ボタン
         val registerButton = view.findViewById<Button>(R.id.registerButton)
 
@@ -104,12 +91,30 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BODY_FAT_PERCENTAGE, bodyFatPercentageForm.text.toString())
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_SKELETAL_MUSCLE_PERCENTAGE, skeletalMusclePercentageForm.text.toString())
                 put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BASAL_METABOLIC_RATE, basalMetabolicRateForm.text.toString())
-                put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP, model.imageData)
+                put(PhysicalRecordContract.PhysicalRecordEntry.COLUMN_NAME_BITMAP, model.todayImageData)
             }
 
             // テーブルに書き込み
             physicalRecordId = db.insert(PhysicalRecordContract.PhysicalRecordEntry.TABLE_NAME, null, values)
             db.close()
+        }
+
+        // 値をセット
+        setView()
+    }
+
+    // 値を表示する関数
+    private fun setView() {
+        bodyWeightForm.setText(model.todayData[0])
+        bodyFatPercentageForm.setText(model.todayData[1])
+        skeletalMusclePercentageForm.setText(model.todayData[2])
+        basalMetabolicRateForm.setText(model.todayData[3])
+
+        // 少なくとも1つ以上の要素がある時、画像をセット
+        if (model.todayImageData.any()) {
+            // bytearrayをbitmapに変換
+            val bitmap = BitmapFactory.decodeByteArray(model.todayImageData,0,model.todayImageData.size)
+            imageView.setImageBitmap(bitmap)
         }
     }
 
@@ -125,7 +130,7 @@ class RecordFragment : Fragment(R.layout.fragment_record) {
             // 画像をセット
             imageView.setImageBitmap(bitmap)
 
-            model.imageData = getBinaryFromBitmap(bitmap)
+            model.todayImageData = getBinaryFromBitmap(bitmap)
         }
     }
 

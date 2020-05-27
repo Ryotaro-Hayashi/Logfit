@@ -1,4 +1,4 @@
-package com.example.project
+package com.hysrtr.logfit
 
 import org.junit.Test
 

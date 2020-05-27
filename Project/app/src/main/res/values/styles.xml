@@ -9,4 +9,9 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
+    <!--  MainActivity で表示するスプラッシュ画面  -->
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launcher_screen</item>
+    </style>
+
 </resources>
